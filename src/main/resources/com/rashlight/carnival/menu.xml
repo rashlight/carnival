@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://jmix.io/schema/flowui/menu">
+    <menu opened="true" id="account" title="msg://com.rashlight.carnival/menu.account.title">
+        <item view="DashboardView" title="msg://com.rashlight.carnival.view.dashboard/dashboard.title"/>
+    </menu>
+    <menu opened="true" id="games" title="msg://com.rashlight.carnival/menu.games.title">
+        <item view="GuessNumView" title="msg://com.rashlight.carnival.view.guessnum/guessNum.title"/>
+        <item view="CrashMulView" title="msg://com.rashlight.carnival.view.crashmul/crashMulView.title"/>
+        <item view="FighterView" title="msg://com.rashlight.carnival.view.fighter/fighterView.title"/>
+    </menu>
+    <menu opened="true" id="credentials" title="msg://com.rashlight.carnival/menu.account.credentials">
+        <item view="User.list" title="msg://com.rashlight.carnival/users"/>
+    </menu>
+    <menu opened="true" id="security" title="msg://com.rashlight.carnival/menu.security.title">
+        <item view="sec_ResourceRoleModel.list"
+              title="msg://io.jmix.securityflowui.view.resourcerole/resourceRoleModelListView.menu"/>
+        <item view="sec_RowLevelRoleModel.list"
+              title="msg://io.jmix.securityflowui.view.rowlevelrole/rowLevelRoleModelListView.menu"/>
+    </menu>
+    <menu opened="true" id="datatools" title="msg://com.rashlight.carnival/menu.datatools.title">
+        <item view="datatl_entityInspectorListView"
+              title="msg://io.jmix.datatoolsflowui.view.entityinspector/listTitle"/>
+    </menu>
+</menu-config>

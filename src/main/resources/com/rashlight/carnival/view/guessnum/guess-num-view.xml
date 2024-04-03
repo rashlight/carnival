@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://guessNum.title">
+    <layout justifyContent="CENTER" alignItems="CENTER" >
+        <vbox id="preStartBox" justifyContent="CENTER" alignItems="CENTER" classNames="guessNumRule" colspan="4">
+            <nativeLabel text="msg://guessNumTitleLabel.text" classNames="title-text" id="guessNumTitleLabel"/>
+            <textArea readOnly="true" id="guessNumRuleText" classNames="guess-num-rule"
+                      label="msg://guessNumRuleText.label"/>
+            <hbox alignItems="CENTER" justifyContent="CENTER" minWidth="100%" maxWidth="100%">
+                <textField id="guessNumPointsInput" allowedCharPattern="[0-9]"
+                           maxLength="16" placeholder="msg://guessNumPointsInput.placeholder" minWidth="15%"
+                           valueChangeMode="EAGER"/>
+                <button id="guessNumStartButton" text="Start" title="R"/>
+            </hbox>
+        </vbox>
+        <vbox id="postStartBox" visible="false" justifyContent="CENTER" alignItems="CENTER">
+            <nativeLabel text="msg://guessNumJudgementLabel.text" classNames="title-text" id="guessNumJudgementLabel"/>
+            <hbox alignItems="CENTER" justifyContent="CENTER" minWidth="100%" maxWidth="100%">
+                <textField id="guessNumEnter" title="msg://guessNumEnter.title"
+                           allowedCharPattern="[0-9]" maxLength="3" minWidth="15%" valueChangeMode="EAGER"/>
+                <button id="guessNumConfirmButton" text="msg://guessNumConfirmButton.text"/>
+            </hbox>
+            <nativeLabel text="msg://guessNumLeftLabel.text" id="guessNumAttemptsLeft"/>
+        </vbox>
+    </layout>
+</view>

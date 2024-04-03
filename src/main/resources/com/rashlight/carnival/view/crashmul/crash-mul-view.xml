@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://crashMulView.title">
+    <layout justifyContent="CENTER" alignItems="CENTER" >
+        <vbox id="preStartBox" justifyContent="CENTER" alignItems="CENTER" classNames="crashMulRule" colspan="4">
+            <nativeLabel text="msg://crashMulTitleLabel.text" classNames="title-text" id="crashMulTitleLabel"/>
+            <textArea readOnly="true" id="crashMulRuleText" classNames="guess-num-rule"
+                      label="msg://crashMulRuleText.label"/>
+            <hbox alignItems="CENTER" justifyContent="CENTER" minWidth="100%" maxWidth="100%">
+                <textField id="crashMulPointsInput" allowedCharPattern="[0-9]"
+                           maxLength="16" placeholder="msg://crashMulInput.placeholder" minWidth="20%"/>
+                <button id="crashMulStartButton" text="Start" title="msg://crashMulStartButton.start"/>
+            </hbox>
+        </vbox>
+        <vbox id="postStartBox" visible="false" justifyContent="CENTER" alignItems="CENTER">
+            <nativeLabel classNames="title-text" text="msg://nativeLabel.text" id="crashMulMatchLabel"/>
+            <button id="crashMulReadyButton"/>
+            <button id="crashMulStopButton" visible="false"/>
+        </vbox>
+    </layout>
+</view>

@@ -1,0 +1,24 @@
+syntax="proto3";
+
+option java_package="com.rashlight.carnival.communication.grpc.autogen";
+option java_multiple_files=true;
+option java_outer_classname = "CrashMulProto";
+
+message GetCurrentMultiplierRequest {}
+message GetCurrentMultiplierResponse {
+  double multiplier = 1;
+}
+
+message InitiateRequest {}
+message InitiateResponse {}
+
+message BumpRequest {}
+message BumpResponse {
+  bool isFail = 1;
+}
+
+service CrashMulService {
+  rpc getCurrentMultiplier (GetCurrentMultiplierRequest) returns (GetCurrentMultiplierResponse) {}
+  rpc initiate (InitiateRequest) returns (InitiateResponse) {}
+  rpc bump (BumpRequest) returns (BumpResponse) {}
+}

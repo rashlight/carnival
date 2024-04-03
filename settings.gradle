@@ -1,0 +1,3 @@
+rootProject.name = 'Carnival'
+settings.gradle.startParameter.excludedTaskNames.add('generateProto')
+settings.gradle.startParameter.excludedTaskNames.add('generateTestProto')

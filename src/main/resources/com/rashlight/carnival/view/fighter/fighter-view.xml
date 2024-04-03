@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://fighterView.title">
+    <layout justifyContent="CENTER" alignItems="CENTER" >
+        <vbox id="preStartBox" justifyContent="CENTER" alignItems="CENTER" classNames="fighterRule" colspan="4">
+            <nativeLabel text="msg://fighterTitleLabel.text" classNames="title-text" id="fighterTitleLabel"/>
+            <textArea readOnly="true" id="fighterRuleText" classNames="guess-num-rule"
+                      label="msg://fighterRuleText.label" minWidth="50%"/>
+            <hbox alignItems="CENTER" justifyContent="CENTER" minWidth="100%" maxWidth="100%">
+                <textField id="fighterPointsInput" allowedCharPattern="[0-9]"
+                           maxLength="16" placeholder="msg://fighterPointsInput.placeholder" minWidth="20%"/>
+                <button id="fighterStartButton" text="Start" title="R"/>
+            </hbox>
+        </vbox>
+        <vbox id="postStartBox" visible="false" justifyContent="CENTER" alignItems="CENTER">
+            <nativeLabel classNames="title-text" text="msg://nativeLabel.text" id="fighterTitleMatchLabel"/>
+            <nativeLabel text="msg://nativeLabel1.text" id="fighterDescriptionMatchLabel"/>
+            <hbox classNames="fighter-board" alignItems="CENTER" justifyContent="CENTER">
+                <button classNames="fighter-deadzone" icon="vaadin:warning" minWidth="50px" minHeight="50px" id="button0"/>
+                <button classNames="fighter-deadzone" icon="vaadin:warning" minWidth="50px" minHeight="50px" id="button1"/>
+                <button minHeight="50px" minWidth="50px" id="button2"/>
+                <button minHeight="50px" minWidth="50px" id="button3"/>
+                <button minHeight="50px" minWidth="50px" id="button4"/>
+                <button minHeight="50px" minWidth="50px" id="button5"/>
+                <button minHeight="50px" minWidth="50px" id="button6"/>
+                <button minHeight="50px" minWidth="50px" id="button7"/>
+                <button minHeight="50px" minWidth="50px" id="button8"/>
+                <button minHeight="50px" minWidth="50px" id="button9"/>
+                <button minHeight="50px" minWidth="50px" id="button10"/>
+                <button minHeight="50px" minWidth="50px" id="button11"/>
+                <button classNames="fighter-deadzone" icon="vaadin:warning" minWidth="50px" minHeight="50px" id="button12"/>
+                <button classNames="fighter-deadzone" icon="vaadin:warning" minWidth="50px" minHeight="50px" id="button13"/>
+            </hbox>
+            <hbox>
+                <button text="msg://attackButton.text" icon="vaadin:sword" id="attackButton"/>
+                <button text="msg://defendButton.text" icon="vaadin:shield" id="defendButton"/>
+                <button text="msg://dashButton.text" icon="vaadin:forward" id="dashButton"/>
+            </hbox>
+            <button id="actionButton" text="msg://actionButton.default" themeNames="primary" enabled="false"/>
+            <button id="nextMatchButton" text="msg://nextMatchButton.default" themeNames="primary" visible="false"/>
+            <button id="endGameButton" text="msg://endGameButton.default" themeNames="primary" visible="false"/>
+        </vbox>
+    </layout>
+</view>

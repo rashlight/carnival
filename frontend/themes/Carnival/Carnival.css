@@ -1,0 +1,62 @@
+/* Define your styles here */
+.jmix-login-main-layout {
+    width: 100%;
+    background-image: url("./background.png");
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    height: 25em;
+}
+
+.jmix-login-main-layout jmix-login-form {
+    align-items: center;
+    display: flex;
+    max-width: 25em;
+    background-color: var(--lumo-base-color);
+}
+
+.jmix-login-main-layout vaadin-login-form-wrapper {
+    background-image: none;
+}
+
+.guess-num-rule {
+    width: 35%;
+}
+
+.title-text {
+    font-size: 300%;
+    font-weight: bolder;
+    margin: -10px 0px -10px 0px;
+}
+
+.points-info-text {
+    font-size: large;
+}
+
+.dashboard-title {
+    font-size: 300%;
+    font-weight: bolder;
+}
+
+.fighter-button {
+    min-width: 50px;
+    min-height: 50px;
+}
+
+.fighter-board {
+    height: 10%;
+    width: 100%;
+    margin: 20px 0px 20px 0px;
+}
+
+.fighter-deadzone {
+    color: tomato
+}
+
+.fighter-friendly {
+    color: forestgreen;
+}
+
+.fighter-enemy {
+    color: goldenrod;
+}
