@@ -14,8 +14,8 @@
         </vbox>
         <vbox id="postStartBox" visible="false" justifyContent="CENTER" alignItems="CENTER">
             <nativeLabel classNames="title-text" text="msg://nativeLabel.text" id="crashMulMatchLabel"/>
-            <button id="crashMulReadyButton"/>
-            <button id="crashMulStopButton" visible="false"/>
+            <button id="crashMulReadyButton" text="msg://crashMulReadyButton1.text"/>
+            <button id="crashMulStopButton" text="msg://crashMulStopButton.text" visible="false"/>
         </vbox>
     </layout>
 </view>

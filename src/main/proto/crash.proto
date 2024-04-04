@@ -12,6 +12,9 @@ message GetCurrentMultiplierResponse {
 message InitiateRequest {}
 message InitiateResponse {}
 
+message GetBumpTimeRequest {}
+message GetBumpTimeResponse {}
+
 message BumpRequest {}
 message BumpResponse {
   bool isFail = 1;
@@ -21,4 +24,5 @@ service CrashMulService {
   rpc getCurrentMultiplier (GetCurrentMultiplierRequest) returns (GetCurrentMultiplierResponse) {}
   rpc initiate (InitiateRequest) returns (InitiateResponse) {}
   rpc bump (BumpRequest) returns (BumpResponse) {}
+  rpc getBumpTime (GetBumpTimeRequest) returns (GetBumpTimeResponse) {}
 }

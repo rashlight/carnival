@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Objects;
+
 @Configuration
 @GrpcClientBean(
         clazz = CrashMulServiceGrpc.CrashMulServiceBlockingStub.class,
         beanName = "crashMulServiceBlockingStub",
-        client = @GrpcClient("crashMulService")
+        client = @GrpcClient("CrashMulService")
 )
 public class GrpcConfiguration {
     @Bean

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CrashMulServiceClient implements CrashMulInterface {
-
     private final CrashMulServiceGrpc.CrashMulServiceBlockingStub crashMulServiceStub;
 
     public CrashMulServiceClient(CrashMulServiceGrpc.CrashMulServiceBlockingStub blockingStub) {

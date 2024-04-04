@@ -27,6 +27,8 @@ import io.jmix.flowui.component.textfield.TypedTextField;
 import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
 
 import java.util.UUID;
 
@@ -63,6 +65,8 @@ public class CrashMulView extends StandardView {
     private VerticalLayout preStartBox;
     @Autowired
     private DataManager dataManager;
+    @Autowired
+    private ApplicationContext applicationContext;
 
     private long getDeltaPoints() {
         User user = CarnivalToolbox.getLoggedInUser(currentAuthentication);
@@ -144,7 +148,7 @@ public class CrashMulView extends StandardView {
         crashMulStopButton.setVisible(true);
         crashMulStopButton.setEnabled(true);
 
-        BackgroundTask<Double, Double> task = new CrashMulTask();
+        BackgroundTask<Double, Double> task = new CrashMulTask(crashMulServiceClient, crashMulMatchLabel);
         BackgroundTaskHandler<Double> taskHandler = backgroundWorker.handle(task);
         taskHandler.execute();
     }
