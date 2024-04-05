@@ -4,38 +4,49 @@
 package com.rashlight.carnival.communication.grpc.autogen;
 
 /**
- * Protobuf type {@code BumpRequest}
+ * Protobuf type {@code GetCurrentBumpTimeResponse}
  */
-public final class BumpRequest extends
+public final class GetCurrentBumpTimeResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:BumpRequest)
-    BumpRequestOrBuilder {
+    // @@protoc_insertion_point(message_implements:GetCurrentBumpTimeResponse)
+    GetCurrentBumpTimeResponseOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use BumpRequest.newBuilder() to construct.
-  private BumpRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use GetCurrentBumpTimeResponse.newBuilder() to construct.
+  private GetCurrentBumpTimeResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private BumpRequest() {
+  private GetCurrentBumpTimeResponse() {
   }
 
   @java.lang.Override
   @SuppressWarnings({"unused"})
   protected java.lang.Object newInstance(
       UnusedPrivateParameter unused) {
-    return new BumpRequest();
+    return new GetCurrentBumpTimeResponse();
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.rashlight.carnival.communication.grpc.autogen.CrashMulProto.internal_static_BumpRequest_descriptor;
+    return com.rashlight.carnival.communication.grpc.autogen.CrashMulProto.internal_static_GetCurrentBumpTimeResponse_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.rashlight.carnival.communication.grpc.autogen.CrashMulProto.internal_static_BumpRequest_fieldAccessorTable
+    return com.rashlight.carnival.communication.grpc.autogen.CrashMulProto.internal_static_GetCurrentBumpTimeResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.rashlight.carnival.communication.grpc.autogen.BumpRequest.class, com.rashlight.carnival.communication.grpc.autogen.BumpRequest.Builder.class);
+            com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse.class, com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse.Builder.class);
+  }
+
+  public static final int BUMPTIME_FIELD_NUMBER = 1;
+  private int bumpTime_ = 0;
+  /**
+   * <code>int32 bumpTime = 1;</code>
+   * @return The bumpTime.
+   */
+  @java.lang.Override
+  public int getBumpTime() {
+    return bumpTime_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -52,6 +63,9 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    if (bumpTime_ != 0) {
+      output.writeInt32(1, bumpTime_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -61,6 +75,10 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
+    if (bumpTime_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(1, bumpTime_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
     return size;
@@ -71,11 +89,13 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof com.rashlight.carnival.communication.grpc.autogen.BumpRequest)) {
+    if (!(obj instanceof com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse)) {
       return super.equals(obj);
     }
-    com.rashlight.carnival.communication.grpc.autogen.BumpRequest other = (com.rashlight.carnival.communication.grpc.autogen.BumpRequest) obj;
+    com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse other = (com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse) obj;
 
+    if (getBumpTime()
+        != other.getBumpTime()) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -87,49 +107,51 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
+    hash = (37 * hash) + BUMPTIME_FIELD_NUMBER;
+    hash = (53 * hash) + getBumpTime();
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static com.rashlight.carnival.communication.grpc.autogen.BumpRequest parseFrom(
+  public static com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.rashlight.carnival.communication.grpc.autogen.BumpRequest parseFrom(
+  public static com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.rashlight.carnival.communication.grpc.autogen.BumpRequest parseFrom(
+  public static com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.rashlight.carnival.communication.grpc.autogen.BumpRequest parseFrom(
+  public static com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.rashlight.carnival.communication.grpc.autogen.BumpRequest parseFrom(byte[] data)
+  public static com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.rashlight.carnival.communication.grpc.autogen.BumpRequest parseFrom(
+  public static com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.rashlight.carnival.communication.grpc.autogen.BumpRequest parseFrom(java.io.InputStream input)
+  public static com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.rashlight.carnival.communication.grpc.autogen.BumpRequest parseFrom(
+  public static com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -137,26 +159,26 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  public static com.rashlight.carnival.communication.grpc.autogen.BumpRequest parseDelimitedFrom(java.io.InputStream input)
+  public static com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
 
-  public static com.rashlight.carnival.communication.grpc.autogen.BumpRequest parseDelimitedFrom(
+  public static com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.rashlight.carnival.communication.grpc.autogen.BumpRequest parseFrom(
+  public static com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.rashlight.carnival.communication.grpc.autogen.BumpRequest parseFrom(
+  public static com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -169,7 +191,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(com.rashlight.carnival.communication.grpc.autogen.BumpRequest prototype) {
+  public static Builder newBuilder(com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -185,26 +207,26 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code BumpRequest}
+   * Protobuf type {@code GetCurrentBumpTimeResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:BumpRequest)
-      com.rashlight.carnival.communication.grpc.autogen.BumpRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:GetCurrentBumpTimeResponse)
+      com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rashlight.carnival.communication.grpc.autogen.CrashMulProto.internal_static_BumpRequest_descriptor;
+      return com.rashlight.carnival.communication.grpc.autogen.CrashMulProto.internal_static_GetCurrentBumpTimeResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rashlight.carnival.communication.grpc.autogen.CrashMulProto.internal_static_BumpRequest_fieldAccessorTable
+      return com.rashlight.carnival.communication.grpc.autogen.CrashMulProto.internal_static_GetCurrentBumpTimeResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.rashlight.carnival.communication.grpc.autogen.BumpRequest.class, com.rashlight.carnival.communication.grpc.autogen.BumpRequest.Builder.class);
+              com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse.class, com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse.Builder.class);
     }
 
-    // Construct using com.rashlight.carnival.communication.grpc.autogen.BumpRequest.newBuilder()
+    // Construct using com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse.newBuilder()
     private Builder() {
 
     }
@@ -217,23 +239,25 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
+      bitField0_ = 0;
+      bumpTime_ = 0;
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.rashlight.carnival.communication.grpc.autogen.CrashMulProto.internal_static_BumpRequest_descriptor;
+      return com.rashlight.carnival.communication.grpc.autogen.CrashMulProto.internal_static_GetCurrentBumpTimeResponse_descriptor;
     }
 
     @java.lang.Override
-    public com.rashlight.carnival.communication.grpc.autogen.BumpRequest getDefaultInstanceForType() {
-      return com.rashlight.carnival.communication.grpc.autogen.BumpRequest.getDefaultInstance();
+    public com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse getDefaultInstanceForType() {
+      return com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse.getDefaultInstance();
     }
 
     @java.lang.Override
-    public com.rashlight.carnival.communication.grpc.autogen.BumpRequest build() {
-      com.rashlight.carnival.communication.grpc.autogen.BumpRequest result = buildPartial();
+    public com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse build() {
+      com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -241,10 +265,18 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public com.rashlight.carnival.communication.grpc.autogen.BumpRequest buildPartial() {
-      com.rashlight.carnival.communication.grpc.autogen.BumpRequest result = new com.rashlight.carnival.communication.grpc.autogen.BumpRequest(this);
+    public com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse buildPartial() {
+      com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse result = new com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse(this);
+      if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
+    }
+
+    private void buildPartial0(com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse result) {
+      int from_bitField0_ = bitField0_;
+      if (((from_bitField0_ & 0x00000001) != 0)) {
+        result.bumpTime_ = bumpTime_;
+      }
     }
 
     @java.lang.Override
@@ -281,16 +313,19 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof com.rashlight.carnival.communication.grpc.autogen.BumpRequest) {
-        return mergeFrom((com.rashlight.carnival.communication.grpc.autogen.BumpRequest)other);
+      if (other instanceof com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse) {
+        return mergeFrom((com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(com.rashlight.carnival.communication.grpc.autogen.BumpRequest other) {
-      if (other == com.rashlight.carnival.communication.grpc.autogen.BumpRequest.getDefaultInstance()) return this;
+    public Builder mergeFrom(com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse other) {
+      if (other == com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse.getDefaultInstance()) return this;
+      if (other.getBumpTime() != 0) {
+        setBumpTime(other.getBumpTime());
+      }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
       return this;
@@ -317,6 +352,11 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
+            case 8: {
+              bumpTime_ = input.readInt32();
+              bitField0_ |= 0x00000001;
+              break;
+            } // case 8
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -332,6 +372,39 @@ private static final long serialVersionUID = 0L;
       } // finally
       return this;
     }
+    private int bitField0_;
+
+    private int bumpTime_ ;
+    /**
+     * <code>int32 bumpTime = 1;</code>
+     * @return The bumpTime.
+     */
+    @java.lang.Override
+    public int getBumpTime() {
+      return bumpTime_;
+    }
+    /**
+     * <code>int32 bumpTime = 1;</code>
+     * @param value The bumpTime to set.
+     * @return This builder for chaining.
+     */
+    public Builder setBumpTime(int value) {
+
+      bumpTime_ = value;
+      bitField0_ |= 0x00000001;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 bumpTime = 1;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearBumpTime() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      bumpTime_ = 0;
+      onChanged();
+      return this;
+    }
     @java.lang.Override
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -345,23 +418,23 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:BumpRequest)
+    // @@protoc_insertion_point(builder_scope:GetCurrentBumpTimeResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:BumpRequest)
-  private static final com.rashlight.carnival.communication.grpc.autogen.BumpRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:GetCurrentBumpTimeResponse)
+  private static final com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new com.rashlight.carnival.communication.grpc.autogen.BumpRequest();
+    DEFAULT_INSTANCE = new com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse();
   }
 
-  public static com.rashlight.carnival.communication.grpc.autogen.BumpRequest getDefaultInstance() {
+  public static com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<BumpRequest>
-      PARSER = new com.google.protobuf.AbstractParser<BumpRequest>() {
+  private static final com.google.protobuf.Parser<GetCurrentBumpTimeResponse>
+      PARSER = new com.google.protobuf.AbstractParser<GetCurrentBumpTimeResponse>() {
     @java.lang.Override
-    public BumpRequest parsePartialFrom(
+    public GetCurrentBumpTimeResponse parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -380,17 +453,17 @@ private static final long serialVersionUID = 0L;
     }
   };
 
-  public static com.google.protobuf.Parser<BumpRequest> parser() {
+  public static com.google.protobuf.Parser<GetCurrentBumpTimeResponse> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<BumpRequest> getParserForType() {
+  public com.google.protobuf.Parser<GetCurrentBumpTimeResponse> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.rashlight.carnival.communication.grpc.autogen.BumpRequest getDefaultInstanceForType() {
+  public com.rashlight.carnival.communication.grpc.autogen.GetCurrentBumpTimeResponse getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

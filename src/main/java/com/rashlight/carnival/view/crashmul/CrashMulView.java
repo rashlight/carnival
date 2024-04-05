@@ -24,6 +24,7 @@ import io.jmix.flowui.backgroundtask.BackgroundTaskHandler;
 import io.jmix.flowui.backgroundtask.BackgroundWorker;
 import io.jmix.flowui.component.textarea.JmixTextArea;
 import io.jmix.flowui.component.textfield.TypedTextField;
+import io.jmix.flowui.exception.ValidationException;
 import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import java.util.UUID;
 @ViewController("CrashMulView")
 @ViewDescriptor("crash-mul-view.xml")
 public class CrashMulView extends StandardView {
+    public CrashMulState crashMulState;
     @ViewComponent
     private JmixTextArea crashMulRuleText;
     @Autowired
@@ -54,7 +56,6 @@ public class CrashMulView extends StandardView {
     private CrashMulServiceClient crashMulServiceClient;
     @Autowired
     private CurrentAuthentication currentAuthentication;
-    private CrashMulState crashMulState;
     @ViewComponent
     private TypedTextField<Object> crashMulPointsInput;
     @Autowired
@@ -94,6 +95,27 @@ public class CrashMulView extends StandardView {
         }
     }
 
+    public void handleFinalize(Double result) {
+        crashMulState.setFinalMultiplier(result);
+
+        changeVisualMode(GuessNumMode.PRESTART);
+        notifications.create("Done, " + crashMulState.getPlayerMultiplier() + ", " + crashMulState.getFinalMultiplier()).withPosition(Notification.Position.MIDDLE).show();
+    }
+
+    public void handleMultiplierUpdate(Double value) {
+        crashMulMatchLabel.setText(value + "");
+    }
+
+    public boolean handleTaskTimeout() {
+        changeVisualMode(GuessNumMode.PRESTART);
+        notifications.create("An error has happened: Gameplay time is too long");
+        throw new ValidationException("CrashMulTask timeout is too long");
+    }
+
+    public boolean handleUnhandledException(Exception ex) {
+        throw new ValidationException(ex);
+    }
+
     @Subscribe
     public void onBeforeShow(final BeforeShowEvent event) {
         crashMulState = new CrashMulState();
@@ -124,8 +146,14 @@ public class CrashMulView extends StandardView {
             user.setPoints(user.getPoints() - pointsGiven);
             dataManager.save(user);
 
+            crashMulReadyButton.setVisible(true);
+            crashMulStopButton.setVisible(false);
+            crashMulStopButton.setEnabled(true);
+
             crashMulState.setMatchId(UUID.randomUUID());
             crashMulState.setPointsGiven(pointsGiven);
+            crashMulState.setPlayerMultiplier(0.0d);
+            crashMulState.setFinalMultiplier(0.0d);
             crashMulMatchLabel.setText(messageBundle.getMessage("crashMulMatchLabel.startup"));
             changeVisualMode(GuessNumMode.POSTSTART);
             notifications.create(
@@ -143,12 +171,11 @@ public class CrashMulView extends StandardView {
 
     @Subscribe(id = "crashMulReadyButton", subject = "clickListener")
     public void onCrashMulReadyButtonClick(final ClickEvent<JmixButton> event) {
-        crashMulReadyButton.setEnabled(false);
         crashMulReadyButton.setVisible(false);
         crashMulStopButton.setVisible(true);
         crashMulStopButton.setEnabled(true);
 
-        BackgroundTask<Double, Double> task = new CrashMulTask(crashMulServiceClient, crashMulMatchLabel);
+        BackgroundTask<Double, Double> task = new CrashMulTask(this.crashMulServiceClient, this);
         BackgroundTaskHandler<Double> taskHandler = backgroundWorker.handle(task);
         taskHandler.execute();
     }

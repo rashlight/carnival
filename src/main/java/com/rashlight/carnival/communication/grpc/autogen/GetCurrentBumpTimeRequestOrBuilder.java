@@ -3,7 +3,7 @@
 
 package com.rashlight.carnival.communication.grpc.autogen;
 
-public interface BumpRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:BumpRequest)
+public interface GetCurrentBumpTimeRequestOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:GetCurrentBumpTimeRequest)
     com.google.protobuf.MessageOrBuilder {
 }

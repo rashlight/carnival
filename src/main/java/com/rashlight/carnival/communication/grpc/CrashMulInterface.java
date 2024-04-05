@@ -4,4 +4,5 @@ public interface CrashMulInterface {
     double getCurrentMultiplier();
     void initiate();
     boolean bump();
+    int getCurrentBumpTime();
 }

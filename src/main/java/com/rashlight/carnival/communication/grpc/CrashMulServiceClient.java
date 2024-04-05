@@ -30,4 +30,10 @@ public class CrashMulServiceClient implements CrashMulInterface {
         BumpRequest request = BumpRequest.newBuilder().build();
         return crashMulServiceStub.bump(request).getIsFail();
     }
+
+    @Override
+    public int getCurrentBumpTime() {
+        GetCurrentBumpTimeRequest request = GetCurrentBumpTimeRequest.newBuilder().build();
+        return crashMulServiceStub.getCurrentBumpTime(request).getBumpTime();
+    }
 }

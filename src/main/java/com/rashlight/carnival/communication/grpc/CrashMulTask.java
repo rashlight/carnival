@@ -1,7 +1,13 @@
 package com.rashlight.carnival.communication.grpc;
 
+import com.rashlight.carnival.entity.CrashMulState;
+import com.rashlight.carnival.entity.GuessNumMode;
 import com.rashlight.carnival.view.crashmul.CrashMulView;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.NativeLabel;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import io.jmix.flowui.Notifications;
 import io.jmix.flowui.backgroundtask.BackgroundTask;
 import io.jmix.flowui.backgroundtask.TaskLifeCycle;
 import io.jmix.flowui.exception.ValidationException;
@@ -17,27 +23,27 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class CrashMulTask extends BackgroundTask<Double, Double> {
-    private final NativeLabel crashMulMatchLabel;
     private final CrashMulServiceClient crashMulServiceClient;
+    private final CrashMulView crashMulView;
 
     public CrashMulTask(
             CrashMulServiceClient crashMulServiceClient,
-            NativeLabel crashMulMatchLabel) {
-        super(1, TimeUnit.MINUTES);
+            CrashMulView crashMulView) {
+        super(1, TimeUnit.HOURS);
         this.crashMulServiceClient = crashMulServiceClient;
-        this.crashMulMatchLabel = crashMulMatchLabel;
+        this.crashMulView = crashMulView;
     }
 
     @Override
     public void done(@Nonnull Double result) {
         super.done(result);
-        crashMulMatchLabel.setText("Done, " + result);
+        crashMulView.handleFinalize(result);
     }
 
     @Override
     public void progress(@Nonnull List<Double> changes) {
         super.progress(changes);
-        crashMulMatchLabel.setText(changes.getLast() + "");
+        crashMulView.handleMultiplierUpdate(changes.getLast());
     }
 
     @Override
@@ -45,7 +51,7 @@ public class CrashMulTask extends BackgroundTask<Double, Double> {
     public Double run(@Nonnull TaskLifeCycle<Double> taskLifeCycle) throws Exception {
         crashMulServiceClient.initiate();
         while (!crashMulServiceClient.bump()) {
-            Thread.sleep(Duration.ofMillis(30));
+            Thread.sleep(Duration.ofMillis(Math.clamp(250 - crashMulServiceClient.getCurrentBumpTime() * 2L, 1, Integer.MAX_VALUE)));
             taskLifeCycle.publish(crashMulServiceClient.getCurrentMultiplier());
         }
         return crashMulServiceClient.getCurrentMultiplier();
@@ -53,11 +59,11 @@ public class CrashMulTask extends BackgroundTask<Double, Double> {
 
     @Override
     public boolean handleTimeoutException() {
-        throw new ValidationException("CrashMulTask timeout is too long");
+        return crashMulView.handleTaskTimeout();
     }
 
     @Override
     public boolean handleException(@Nonnull Exception ex) {
-        throw new ValidationException(ex);
+        return crashMulView.handleUnhandledException(ex);
     }
 }

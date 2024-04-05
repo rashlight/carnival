@@ -6,7 +6,6 @@ buildscript {
     }
 }
 
-
 plugins {
     id 'io.jmix' version '2.2.1.1'
     id 'com.google.protobuf' version "${protobufPluginVersion}"

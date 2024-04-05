@@ -12,8 +12,10 @@ message GetCurrentMultiplierResponse {
 message InitiateRequest {}
 message InitiateResponse {}
 
-message GetBumpTimeRequest {}
-message GetBumpTimeResponse {}
+message GetCurrentBumpTimeRequest {}
+message GetCurrentBumpTimeResponse {
+  int32 bumpTime = 1;
+}
 
 message BumpRequest {}
 message BumpResponse {
@@ -24,5 +26,5 @@ service CrashMulService {
   rpc getCurrentMultiplier (GetCurrentMultiplierRequest) returns (GetCurrentMultiplierResponse) {}
   rpc initiate (InitiateRequest) returns (InitiateResponse) {}
   rpc bump (BumpRequest) returns (BumpResponse) {}
-  rpc getBumpTime (GetBumpTimeRequest) returns (GetBumpTimeResponse) {}
+  rpc getCurrentBumpTime (GetCurrentBumpTimeRequest) returns (GetCurrentBumpTimeResponse) {}
 }
