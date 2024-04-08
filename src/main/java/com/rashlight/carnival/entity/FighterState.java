@@ -31,15 +31,15 @@ public class FighterState extends State {
     @NotNull
     private Integer enemySide;
 
-    @Max(13)
-    @Min(0)
+    @Max(11)
+    @Min(-2)
     @JmixProperty(mandatory = true)
     @NotNull
     private Integer friendlyPosition;
 
     @JmixProperty(mandatory = true)
-    @Max(13)
-    @Min(0)
+    @Max(11)
+    @Min(-2)
     @NotNull
     private Integer enemyPosition;
 

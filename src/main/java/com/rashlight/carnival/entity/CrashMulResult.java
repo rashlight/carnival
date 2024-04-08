@@ -2,14 +2,15 @@ package com.rashlight.carnival.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.JmixEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Table(name = "CRASH_MUL_RESULT")
+@Table(name = "CRASH_MUL_RESULT", indexes = {
+        @Index(name = "IDX_CRASH_MUL_RESULT_USER", columnList = "USER_ID")
+})
 @JmixEntity
 @Entity
 public class CrashMulResult {
@@ -18,20 +19,49 @@ public class CrashMulResult {
     @Id
     private UUID id;
 
-    @Column(name = "MATCH_ID")
+    @NotNull
+    @Column(name = "MATCH_ID", nullable = false)
     private UUID matchId;
 
-    @Column(name = "IS_PLAYER_STOP")
-    private Boolean isPlayerStop;
+    @NotNull
+    @JoinColumn(name = "USER_ID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private User user;
 
-    @Column(name = "FINAL_MULTIPLIER")
-    private Double finalMultiplier;
+    @Column(name = "TIME_")
+    private LocalDateTime time;
 
-    @Column(name = "POINTS_GIVEN")
+    @NotNull
+    @Column(name = "POINTS_GIVEN", nullable = false)
     private Long pointsGiven;
 
-    @Column(name = "MULTIPLIER")
+    @NotNull
+    @Column(name = "IS_PLAYER_STOP", nullable = false)
+    private Boolean isPlayerStop = false;
+
+    @NotNull
+    @Column(name = "FINAL_MULTIPLIER", nullable = false)
+    private Double finalMultiplier;
+
+    @NotNull
+    @Column(name = "MULTIPLIER", nullable = false)
     private Double multiplier;
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Boolean getIsPlayerStop() {
         return isPlayerStop;

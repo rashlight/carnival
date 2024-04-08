@@ -32,9 +32,8 @@ public class CarnivalToolbox {
     }
     public static User getLoggedInUser(CurrentAuthentication auth) {
         if (auth.isSet()) {
-            UserDetails userDetails = auth.getUser();
             // Cast UserDetails to your specific User class
-            return (User)userDetails;
+            return (User) auth.getUser();
         } else {
             throw new IllegalStateException("No user is currently authenticated.");
         }

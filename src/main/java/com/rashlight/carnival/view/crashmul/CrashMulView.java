@@ -142,6 +142,8 @@ public class CrashMulView extends StandardView implements SessionResultUpdate {
             reward();
         }
 
+        crashMulState.setIsPlayerStop(false);
+        updateResult();
         updateSession();
     }
 
@@ -224,7 +226,9 @@ public class CrashMulView extends StandardView implements SessionResultUpdate {
 
     @Subscribe(id = "crashMulStopButton", subject = "clickListener")
     public void onCrashMulStopButtonClick(final ClickEvent<JmixButton> event) {
-        crashMulState.setMultiplier(crashMulServiceClient.getCurrentMultiplier());
+        Double value = crashMulServiceClient.getCurrentMultiplier();
+        crashMulState.setMultiplier(value);
+        crashMulState.setFinalMultiplier(value);
         crashMulState.setIsPlayerStop(true);
         updateResult();
         crashMulStopButton.setEnabled(false);
@@ -235,8 +239,9 @@ public class CrashMulView extends StandardView implements SessionResultUpdate {
         Session session = dataManager.create(Session.class);
         session.setGameType(GameType.CRASHMUL);
         session.setMatchId(crashMulState.getMatchId());
-        session.setPointsChange(CarnivalToolbox.floorLongFromDouble(crashMulState.getPointsGiven() * crashMulState.getMultiplier()));
+        session.setUser(CarnivalToolbox.getLoggedInUser(currentAuthentication));
         session.setTime(LocalDateTime.now());
+        session.setPointsChange(CarnivalToolbox.floorLongFromDouble(crashMulState.getPointsGiven() * crashMulState.getMultiplier()));
         dataManager.save(session);
     }
 
@@ -244,8 +249,12 @@ public class CrashMulView extends StandardView implements SessionResultUpdate {
     public void updateResult() {
         CrashMulResult crashMulResult = dataManager.create(CrashMulResult.class);
         crashMulResult.setMatchId(crashMulState.getMatchId());
-        crashMulResult.setMultiplier(crashMulState.getMultiplier());
-        crashMulResult.setFinalMultiplier(crashMulState.getFinalMultiplier());
+        crashMulResult.setUser(CarnivalToolbox.getLoggedInUser(currentAuthentication));
+        crashMulResult.setTime(LocalDateTime.now());
         crashMulResult.setPointsGiven(crashMulState.getPointsGiven());
+        crashMulResult.setIsPlayerStop(crashMulState.getIsPlayerStop());
+        crashMulResult.setFinalMultiplier(crashMulState.getFinalMultiplier());
+        crashMulResult.setMultiplier(crashMulState.getMultiplier());
+        dataManager.save(crashMulResult);
     }
 }

@@ -3,17 +3,17 @@ package com.rashlight.carnival.entity;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import io.jmix.core.metamodel.annotation.JmixProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Table(name = "FIGHTER_RESULT")
+@Table(name = "FIGHTER_RESULT", indexes = {
+        @Index(name = "IDX_FIGHTER_RESULT_USER", columnList = "USER_ID")
+})
 @JmixEntity
 @Entity
 public class FighterResult {
@@ -28,34 +28,40 @@ public class FighterResult {
     private UUID matchId;
 
     @NotNull
-    @Column(name = "FRIENDLY_MATCH_POINT", nullable = false)
-    private Integer friendlyMatchPoint;
+    @JoinColumn(name = "USER_ID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private User user;
 
-    @Column(name = "STATUS", nullable = false)
+    @Column(name = "TIME_", nullable = false)
+    @NotNull
+    private LocalDateTime time;
+
+    @Column(name = "POINTSGIVEN", nullable = false)
     @JmixProperty(mandatory = true)
     @NotNull
-    private Integer status;
-
-    @NotNull
-    @Column(name = "ENEMY_MATCH_POINT", nullable = false)
-    private Integer enemyMatchPoint;
+    private Long pointsGiven;
 
     @Column(name = "SIDE", nullable = false)
     @JmixProperty(mandatory = true)
     @NotNull
     private Integer side;
 
+    @Column(name = "STATUS", nullable = false)
+    @JmixProperty(mandatory = true)
+    @NotNull
+    private Integer status;
+
     @Column(name = "FRIENDLY_POSITION", nullable = false)
-    @Max(13)
-    @Min(0)
+    @Max(11)
+    @Min(-2)
     @JmixProperty(mandatory = true)
     @NotNull
     private Integer friendlyPosition;
 
     @Column(name = "ENEMY_POSITION", nullable = false)
     @JmixProperty(mandatory = true)
-    @Max(13)
-    @Min(0)
+    @Max(11)
+    @Min(-2)
     @NotNull
     private Integer enemyPosition;
 
@@ -71,13 +77,33 @@ public class FighterResult {
     @Column(name = "FRIENDLY_DELTA", nullable = false)
     private Integer friendlyDelta;
 
-    @Column(name = "ENEMY_DELTA")
+    @NotNull
+    @Column(name = "ENEMY_DELTA", nullable = false)
     private Integer enemyDelta;
 
-    @Column(name = "POINTSGIVEN", nullable = false)
-    @JmixProperty(mandatory = true)
     @NotNull
-    private Long pointsGiven;
+    @Column(name = "FRIENDLY_MATCH_POINT", nullable = false)
+    private Integer friendlyMatchPoint;
+
+    @NotNull
+    @Column(name = "ENEMY_MATCH_POINT", nullable = false)
+    private Integer enemyMatchPoint;
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public void setEnemyDelta(Integer enemyDelta) {
         this.enemyDelta = enemyDelta;

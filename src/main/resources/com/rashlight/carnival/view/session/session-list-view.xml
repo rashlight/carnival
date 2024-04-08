@@ -13,11 +13,54 @@
                 </query>
             </loader>
         </collection>
-        <instance id="sessionDc"
-                  class="com.rashlight.carnival.entity.Session">
-            <fetchPlan extends="_base"/>
-            <loader id="sessionDl"/>
-        </instance>
+        <collection id="guessNumResultDc"
+                    class="com.rashlight.carnival.entity.GuessNumResult">
+            <fetchPlan extends="_base">
+                <property name="user" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="guessNumResultDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from GuessNumResult e]]>
+                    <condition>
+                        <c:jpql>
+                            <c:where>e.matchId = :matchId</c:where>
+                        </c:jpql>
+                    </condition>
+                </query>
+            </loader>
+        </collection>
+        <collection id="crashMulResultDc"
+                    class="com.rashlight.carnival.entity.CrashMulResult">
+            <fetchPlan extends="_base">
+                <property name="user" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="crashMulResultDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from CrashMulResult e]]>
+                    <condition>
+                        <c:jpql>
+                            <c:where>e.matchId = :matchId</c:where>
+                        </c:jpql>
+                    </condition>
+                </query>
+            </loader>
+        </collection>
+        <collection id="fighterResultDc"
+                    class="com.rashlight.carnival.entity.FighterResult">
+            <fetchPlan extends="_base">
+                <property name="user" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="fighterResultDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from FighterResult e]]>
+                    <condition>
+                        <c:jpql>
+                            <c:where>e.matchId = :matchId</c:where>
+                        </c:jpql>
+                    </condition>
+                </query>
+            </loader>
+        </collection>
     </data>
     <facets>
         <dataLoadCoordinator auto="true"/>
@@ -30,15 +73,14 @@
         <action id="selectAction" type="lookup_select"/>
         <action id="discardAction" type="lookup_discard"/>
     </actions>
-    <layout padding="false">
-        <formLayout classNames="master-detail-layout" height="100%">
+    <layout>
+        <split orientation="HORIZONTAL" width="100%" height="100%">
             <vbox id="listLayout" height="100%">
                 <genericFilter id="genericFilter"
                                dataLoader="sessionsDl">
                     <properties include=".*"/>
                 </genericFilter>
                 <hbox id="buttonsPanel" classNames="buttons-panel">
-                    <button id="readBtn" action="sessionsDataGrid.read"/>
                     <simplePagination id="pagination" dataLoader="sessionsDl"/>
                 </hbox>
                 <dataGrid id="sessionsDataGrid"
@@ -46,9 +88,6 @@
                           minHeight="20em"
                           dataContainer="sessionsDc"
                           columnReorderingAllowed="true">
-                    <actions>
-                        <action id="read" type="list_read"/>
-                    </actions>
                     <columns resizable="true">
                         <column property="gameType"/>
                         <column property="matchId"/>
@@ -61,18 +100,66 @@
                     <button id="discardBtn" action="discardAction"/>
                 </hbox>
             </vbox>
-            <vbox id="detailsLayout" height="100%">
-                <formLayout id="form" dataContainer="sessionDc">
-                    <textField id="gameIdField" property="gameType"/>
-                    <textField id="matchIdField" property="matchId"/>
-                    <textField id="pointsChangeField" property="pointsChange"/>
-                    <dateTimePicker id="timeField" property="time"/>
-                </formLayout>
-                <hbox id="detailActions">
-                    <button id="saveBtn" text="msg:///actions.Save" icon="CHECK" themeNames="primary"/>
-                    <button id="cancelBtn" text="msg:///actions.Cancel" icon="BAN"/>
-                </hbox>
+            <vbox id="detailsLayout" height="100%" justifyContent="CENTER" alignItems="CENTER">
+                <nativeLabel title="Empty" text="Select a past session to get started" themeNames="primary"
+                             id="noResultLabel"/>
+                <dataGrid id="guessNumResultDataGrid"
+                          width="100%"
+                          minHeight="20em"
+                          dataContainer="guessNumResultDc"
+                          columnReorderingAllowed="true" visible="false">
+                    <columns resizable="true">
+                        <column property="id"/>
+<!--                        <column property="matchId"/>-->
+                        <column property="user"/>
+                        <column property="time"/>
+                        <column property="pointsGiven"/>
+                        <column property="attempt"/>
+                        <column property="attemptValue"/>
+                        <column property="actualValue"/>
+                        <column property="multiplier"/>
+                    </columns>
+                </dataGrid>
+                <dataGrid id="crashMulResultDataGrid"
+                          width="100%"
+                          minHeight="20em"
+                          dataContainer="crashMulResultDc"
+                          columnReorderingAllowed="true" visible="false">
+                    <columns resizable="true">
+                        <column property="id"/>
+<!--                        <column property="matchId"/>-->
+                        <column property="user"/>
+                        <column property="time"/>
+                        <column property="pointsGiven"/>
+                        <column property="isPlayerStop"/>
+                        <column property="finalMultiplier"/>
+                        <column property="multiplier"/>
+                    </columns>
+                </dataGrid>
+                <dataGrid id="fighterResultDataGrid"
+                          width="100%"
+                          minHeight="20em"
+                          dataContainer="fighterResultDc"
+                          columnReorderingAllowed="true" visible="false">
+                    <columns resizable="true">
+                        <column property="id"/>
+<!--                        <column property="matchId"/>-->
+                        <column property="user"/>
+                        <column property="time"/>
+                        <column property="pointsGiven"/>
+                        <column property="side"/>
+                        <column property="status"/>
+                        <column property="friendlyPosition"/>
+                        <column property="enemyPosition"/>
+                        <column property="friendlyAction"/>
+                        <column property="enemyAction"/>
+                        <column property="friendlyDelta"/>
+                        <column property="enemyDelta"/>
+                        <column property="friendlyMatchPoint"/>
+                        <column property="enemyMatchPoint"/>
+                    </columns>
+                </dataGrid>
             </vbox>
-        </formLayout>
+        </split>
     </layout>
 </view>

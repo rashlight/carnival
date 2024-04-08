@@ -23,12 +23,21 @@ public class GuessNumResult {
 
     @Column(name = "MATCH_ID", nullable = false)
     @NotNull
-    private UUID matchID;
+    private UUID matchId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "USER_ID", nullable = false)
     @NotNull
     private User user;
+
+    @Column(name = "TIME", nullable = false)
+    @NotNull
+    private LocalDateTime time;
+
+    @Min(0)
+    @NotNull
+    @Column(name = "POINTS_GIVEN", nullable = false)
+    private Long pointsGiven;
 
     @NotNull
     @Max(5)
@@ -48,17 +57,9 @@ public class GuessNumResult {
     @Column(name = "ACTUAL_VALUE", nullable = false)
     private Integer actualValue;
 
-    @Column(name = "MULTIPLIER")
+    @NotNull
+    @Column(name = "MULTIPLIER", nullable = false)
     private Double multiplier;
-
-    @Min(0)
-    @NotNull
-    @Column(name = "POINTS_GIVEN", nullable = false)
-    private Long pointsGiven;
-
-    @Column(name = "TIME", nullable = false)
-    @NotNull
-    private LocalDateTime time;
 
     public void setMultiplier(Double multiplier) {
         this.multiplier = multiplier;
@@ -68,12 +69,12 @@ public class GuessNumResult {
         return multiplier;
     }
 
-    public UUID getMatchID() {
-        return matchID;
+    public UUID getMatchId() {
+        return matchId;
     }
 
-    public void setMatchID(UUID matchID) {
-        this.matchID = matchID;
+    public void setMatchId(UUID matchId) {
+        this.matchId = matchId;
     }
 
     public void setPointsGiven(Long pointsGiven) {

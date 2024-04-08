@@ -11,8 +11,6 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.DataManager;
-import io.jmix.core.DevelopmentException;
-import io.jmix.core.Entity;
 import io.jmix.core.Messages;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.flowui.Notifications;
@@ -84,15 +82,15 @@ public class GuessNumView extends StandardView implements SessionResultUpdate {
     }
 
     private void punish() {
+        updateResult();
         if (guessNumState.getAttemptsLeft() <= 0) {
+            guessNumState.setMultiplier(-1.0d);
+            updateSession();
             notifications.show(
                     messageBundle.getMessage("gameOver"),
                     messageBundle.getMessage("actualNumDescribe") + " " + guessNumState.getActualNum()
             );
-            updateSession();
             changeVisualMode(GuessNumMode.PRESTART);
-        } else {
-            updateResult();
         }
     }
 
@@ -133,7 +131,6 @@ public class GuessNumView extends StandardView implements SessionResultUpdate {
 
     private long getDeltaPoints() {
         User user = CarnivalToolbox.getLoggedInUser(currentAuthentication);
-
         if (CarnivalToolbox.isNullOrEmpty(guessNumPointsInput.getValue()))
             throw new NullPointerException(CarnivalToolbox.getError(messages, "noPointsValue"));
 
@@ -273,26 +270,28 @@ public class GuessNumView extends StandardView implements SessionResultUpdate {
     @Override
     public void updateSession() {
         Session session = dataManager.create(Session.class);
-
         session.setGameType(GameType.GUESSNUM);
         session.setMatchId(guessNumState.getMatchId());
+        session.setUser(CarnivalToolbox.getLoggedInUser(currentAuthentication));
+        session.setTime(LocalDateTime.now());
         session.setPointsChange(
                 Double.valueOf(Math.floor(guessNumState.getPointsGiven() * guessNumState.getMultiplier())).longValue()
         );
-        session.setTime(LocalDateTime.now());
+        dataManager.save(session);
     }
 
     @Override
     public void updateResult() {
         GuessNumResult guessNumResult = dataManager.create(GuessNumResult.class);
-        guessNumResult.setMatchID(guessNumState.getMatchId());
+        guessNumResult.setMatchId(guessNumState.getMatchId());
+        guessNumResult.setUser(CarnivalToolbox.getLoggedInUser(currentAuthentication));
         guessNumResult.setTime(LocalDateTime.now());
+        guessNumResult.setPointsGiven(guessNumState.getPointsGiven());
         guessNumResult.setAttempt(5 - guessNumState.getAttemptsLeft());
         guessNumResult.setUser(CarnivalToolbox.getLoggedInUser(currentAuthentication));
         guessNumResult.setAttemptValue(guessNumState.getAttemptsLeft());
         guessNumResult.setActualValue(guessNumState.getActualNum());
         guessNumResult.setMultiplier(guessNumState.getMultiplier());
-        guessNumResult.setPointsGiven(guessNumState.getPointsGiven());
         dataManager.save(guessNumResult);
     }
 }

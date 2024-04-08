@@ -2,23 +2,31 @@ package com.rashlight.carnival.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.JmixEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JmixEntity
-@Table(name = "SESSION_")
+@Table(name = "SESSION_", indexes = {
+        @Index(name = "IDX_SESSION__USER", columnList = "USER_ID")
+})
 @Entity(name = "Session_")
 public class Session {
     @JmixGeneratedValue
     @Column(name = "ID", nullable = false)
     @Id
     private UUID id;
+
+    @JoinColumn(name = "USER_ID", nullable = false)
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private User user;
+
+    @Column(name = "TIME", nullable = false)
+    @NotNull
+    private LocalDateTime time;
 
     @NotNull
     @Column(name = "GAME_TYPE", nullable = false)
@@ -32,9 +40,13 @@ public class Session {
     @Column(name = "POINTS_CHANGE", nullable = false)
     private Long pointsChange;
 
-    @Column(name = "TIME", nullable = false)
-    @NotNull
-    private LocalDateTime time;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public void setGameType(GameType gameType) {
         this.gameType = gameType == null ? null : gameType.getId();
