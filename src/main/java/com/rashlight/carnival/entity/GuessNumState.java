@@ -9,29 +9,29 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @JmixEntity
-public class GuessNumState {
+public class GuessNumState extends State {
 
     @NotNull
     private UUID matchId;
 
-    @JmixProperty(mandatory = true)
+    private Long pointsGiven;
+
     @NotNull
-    private Float multiplier;
+    @JmixProperty(mandatory = true)
+    private Double multiplier;
 
     @Max(100)
     @Min(0)
     private Integer actualNum;
 
-    private Long pointsGiven;
-
     private Integer attemptsLeft;
 
-    public Float getMultiplier() {
-        return multiplier;
+    public void setMultiplier(Double multiplier) {
+        this.multiplier = multiplier;
     }
 
-    public void setMultiplier(Float multiplier) {
-        this.multiplier = multiplier;
+    public Double getMultiplier() {
+        return multiplier;
     }
 
     public Long getPointsGiven() {

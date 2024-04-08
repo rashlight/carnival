@@ -3,9 +3,7 @@ package com.rashlight.carnival.view.crashmul;
 
 import com.rashlight.carnival.communication.grpc.CrashMulServiceClient;
 import com.rashlight.carnival.communication.grpc.CrashMulTask;
-import com.rashlight.carnival.entity.CrashMulState;
-import com.rashlight.carnival.entity.GuessNumMode;
-import com.rashlight.carnival.entity.User;
+import com.rashlight.carnival.entity.*;
 import com.rashlight.carnival.value.CarnivalToolbox;
 import com.rashlight.carnival.view.main.MainView;
 
@@ -28,15 +26,15 @@ import io.jmix.flowui.exception.ValidationException;
 import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Route(value = "crash-mul", layout = MainView.class)
 @ViewController("CrashMulView")
 @ViewDescriptor("crash-mul-view.xml")
-public class CrashMulView extends StandardView {
+public class CrashMulView extends StandardView implements SessionResultUpdate {
     public CrashMulState crashMulState;
     @ViewComponent
     private JmixTextArea crashMulRuleText;
@@ -95,20 +93,64 @@ public class CrashMulView extends StandardView {
         }
     }
 
-    public void handleFinalize(Double result) {
-        crashMulState.setFinalMultiplier(result);
+    private void reward() {
+        int reward = (int)Math.floor(crashMulState.getPointsGiven() * crashMulState.getMultiplier());
+        User user = CarnivalToolbox.getLoggedInUser(currentAuthentication);
+        user.setPoints(user.getPoints() + reward);
+        dataManager.save(user);
+
+        if (crashMulState.getMultiplier() <= 1.0d || crashMulState.getFinalMultiplier() <= 1.0d) {
+            notifications.show(
+                    messageBundle.getMessage("winner-semi"),
+                    messageBundle.formatMessage(
+                            "points-earned",
+                            reward,
+                            String.format("(%.2fx)", crashMulState.getMultiplier()),
+                            String.format("(%.2fx)", crashMulState.getFinalMultiplier())
+                    )
+            );
+        } else {
+            notifications.show(
+                    messageBundle.getMessage("winner"),
+                    messageBundle.formatMessage(
+                            "points-earned",
+                            reward,
+                            String.format("(%.2fx)", crashMulState.getMultiplier()),
+                            String.format("(%.2fx)", crashMulState.getFinalMultiplier())
+                    )
+            );
+        }
 
         changeVisualMode(GuessNumMode.PRESTART);
-        notifications.create("Done, " + crashMulState.getPlayerMultiplier() + ", " + crashMulState.getFinalMultiplier()).withPosition(Notification.Position.MIDDLE).show();
+    }
+
+    private void punish() {
+        notifications.show(
+                messageBundle.getMessage("gameOver"),
+                messageBundle.formatMessage("lostReward", crashMulState.getPointsGiven().toString())
+        );
+        changeVisualMode(GuessNumMode.PRESTART);
+    }
+
+    public void handleFinalize(Double result) {
+        crashMulState.setFinalMultiplier(result);
+        crashMulState.setIsPlayerStop(false);
+
+        if (crashMulState.getMultiplier() <= 0d) {
+            punish();
+        } else {
+            reward();
+        }
+
+        updateSession();
     }
 
     public void handleMultiplierUpdate(Double value) {
-        crashMulMatchLabel.setText(value + "");
+        crashMulMatchLabel.setText(value + "x");
     }
 
     public boolean handleTaskTimeout() {
         changeVisualMode(GuessNumMode.PRESTART);
-        notifications.create("An error has happened: Gameplay time is too long");
         throw new ValidationException("CrashMulTask timeout is too long");
     }
 
@@ -152,8 +194,8 @@ public class CrashMulView extends StandardView {
 
             crashMulState.setMatchId(UUID.randomUUID());
             crashMulState.setPointsGiven(pointsGiven);
-            crashMulState.setPlayerMultiplier(0.0d);
-            crashMulState.setFinalMultiplier(0.0d);
+            crashMulState.setFinalMultiplier(0.5d);
+            crashMulState.setMultiplier(-1.0d);
             crashMulMatchLabel.setText(messageBundle.getMessage("crashMulMatchLabel.startup"));
             changeVisualMode(GuessNumMode.POSTSTART);
             notifications.create(
@@ -182,7 +224,28 @@ public class CrashMulView extends StandardView {
 
     @Subscribe(id = "crashMulStopButton", subject = "clickListener")
     public void onCrashMulStopButtonClick(final ClickEvent<JmixButton> event) {
-        crashMulState.setPlayerMultiplier(crashMulServiceClient.getCurrentMultiplier());
+        crashMulState.setMultiplier(crashMulServiceClient.getCurrentMultiplier());
+        crashMulState.setIsPlayerStop(true);
+        updateResult();
         crashMulStopButton.setEnabled(false);
+    }
+
+    @Override
+    public void updateSession() {
+        Session session = dataManager.create(Session.class);
+        session.setGameType(GameType.CRASHMUL);
+        session.setMatchId(crashMulState.getMatchId());
+        session.setPointsChange(CarnivalToolbox.floorLongFromDouble(crashMulState.getPointsGiven() * crashMulState.getMultiplier()));
+        session.setTime(LocalDateTime.now());
+        dataManager.save(session);
+    }
+
+    @Override
+    public void updateResult() {
+        CrashMulResult crashMulResult = dataManager.create(CrashMulResult.class);
+        crashMulResult.setMatchId(crashMulState.getMatchId());
+        crashMulResult.setMultiplier(crashMulState.getMultiplier());
+        crashMulResult.setFinalMultiplier(crashMulState.getFinalMultiplier());
+        crashMulResult.setPointsGiven(crashMulState.getPointsGiven());
     }
 }

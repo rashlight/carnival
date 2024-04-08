@@ -12,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.DataManager;
 import io.jmix.core.DevelopmentException;
+import io.jmix.core.Entity;
 import io.jmix.core.Messages;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.flowui.Notifications;
@@ -23,6 +24,8 @@ import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.UUID;
@@ -30,7 +33,7 @@ import java.util.UUID;
 @Route(value = "guess-num", layout = MainView.class)
 @ViewController("GuessNumView")
 @ViewDescriptor("guess-num-view.xml")
-public class GuessNumView extends StandardView {
+public class GuessNumView extends StandardView implements SessionResultUpdate {
     @Autowired
     private UiComponents uiComponents;
     @Autowired
@@ -76,6 +79,7 @@ public class GuessNumView extends StandardView {
                 messageBundle.getMessage("winner"),
                 "You earned " + reward + String.format("(%.2fx)", guessNumState.getMultiplier())
         );
+        updateSession();
         changeVisualMode(GuessNumMode.PRESTART);
     }
 
@@ -85,7 +89,10 @@ public class GuessNumView extends StandardView {
                     messageBundle.getMessage("gameOver"),
                     messageBundle.getMessage("actualNumDescribe") + " " + guessNumState.getActualNum()
             );
+            updateSession();
             changeVisualMode(GuessNumMode.PRESTART);
+        } else {
+            updateResult();
         }
     }
 
@@ -144,19 +151,10 @@ public class GuessNumView extends StandardView {
 
         int guessNum = Integer.parseInt(guessNumEnter.getValue());
         guessNumState.setAttemptsLeft(guessNumState.getAttemptsLeft() - 1);
-        float multiplier = 5.0f - 0.5f * (5 - guessNumState.getAttemptsLeft());
+        Double multiplier = BigDecimal.valueOf(5.0d - 0.5d * (5 - guessNumState.getAttemptsLeft()))
+                .setScale(1, RoundingMode.HALF_EVEN)
+                .doubleValue();
         guessNumState.setMultiplier(multiplier);
-
-        GuessNumResult guessNumResult = dataManager.create(GuessNumResult.class);
-        guessNumResult.setMatchID(guessNumState.getMatchId());
-        guessNumResult.setTime(LocalDateTime.now());
-        guessNumResult.setAttempt(5 - guessNumState.getAttemptsLeft());
-        guessNumResult.setUser(CarnivalToolbox.getLoggedInUser(currentAuthentication));
-        guessNumResult.setAttemptValue(guessNum);
-        guessNumResult.setActualValue(guessNumState.getActualNum());
-        guessNumResult.setMultiplier(multiplier);
-        guessNumResult.setPointsGiven(guessNumState.getPointsGiven());
-        dataManager.save(guessNumResult);
 
         guessNumAttemptsLeft.setText(guessNumState.getAttemptsLeft() + " " + messageBundle.getMessage("guessNumLeftLabel.text.postfix"));
 
@@ -192,6 +190,8 @@ public class GuessNumView extends StandardView {
 
             guessNumState.setMatchId(UUID.randomUUID());
             guessNumState.setPointsGiven(pointsGiven);
+            guessNumState.setMultiplier(CarnivalToolbox.DefaultMultiplier);
+
             setupNumbers();
             guessNumEnter.setValue("");
             guessNumJudgementLabel.setText(messageBundle.getMessage("guessNumJudgementLabel.text"));
@@ -268,5 +268,31 @@ public class GuessNumView extends StandardView {
     @Subscribe(id = "guessNumConfirmButton", subject = "clickListener")
     public void onGuessNumButtonClick(final ClickEvent<JmixButton> event) {
         processGuessNumButtonClick();
+    }
+
+    @Override
+    public void updateSession() {
+        Session session = dataManager.create(Session.class);
+
+        session.setGameType(GameType.GUESSNUM);
+        session.setMatchId(guessNumState.getMatchId());
+        session.setPointsChange(
+                Double.valueOf(Math.floor(guessNumState.getPointsGiven() * guessNumState.getMultiplier())).longValue()
+        );
+        session.setTime(LocalDateTime.now());
+    }
+
+    @Override
+    public void updateResult() {
+        GuessNumResult guessNumResult = dataManager.create(GuessNumResult.class);
+        guessNumResult.setMatchID(guessNumState.getMatchId());
+        guessNumResult.setTime(LocalDateTime.now());
+        guessNumResult.setAttempt(5 - guessNumState.getAttemptsLeft());
+        guessNumResult.setUser(CarnivalToolbox.getLoggedInUser(currentAuthentication));
+        guessNumResult.setAttemptValue(guessNumState.getAttemptsLeft());
+        guessNumResult.setActualValue(guessNumState.getActualNum());
+        guessNumResult.setMultiplier(guessNumState.getMultiplier());
+        guessNumResult.setPointsGiven(guessNumState.getPointsGiven());
+        dataManager.save(guessNumResult);
     }
 }

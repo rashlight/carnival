@@ -50,8 +50,9 @@ public class CrashMulTask extends BackgroundTask<Double, Double> {
     @Nonnull
     public Double run(@Nonnull TaskLifeCycle<Double> taskLifeCycle) throws Exception {
         crashMulServiceClient.initiate();
+        taskLifeCycle.publish(crashMulServiceClient.getCurrentMultiplier());
         while (!crashMulServiceClient.bump()) {
-            Thread.sleep(Duration.ofMillis(Math.clamp(250 - crashMulServiceClient.getCurrentBumpTime() * 2L, 1, Integer.MAX_VALUE)));
+            Thread.sleep(Duration.ofMillis(Math.clamp(200 - crashMulServiceClient.getCurrentBumpTime() * 2L, 30, Integer.MAX_VALUE)));
             taskLifeCycle.publish(crashMulServiceClient.getCurrentMultiplier());
         }
         return crashMulServiceClient.getCurrentMultiplier();

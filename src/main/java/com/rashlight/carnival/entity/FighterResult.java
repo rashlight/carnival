@@ -67,32 +67,32 @@ public class FighterResult {
     @Column(name = "ENEMYACTION", nullable = false)
     private Integer enemyAction;
 
-    @Column(name = "FRIENDLY_DELTA", nullable = false)
     @NotNull
-    private String friendlyDelta;
+    @Column(name = "FRIENDLY_DELTA", nullable = false)
+    private Integer friendlyDelta;
 
     @Column(name = "ENEMY_DELTA")
-    private String enemyDelta;
+    private Integer enemyDelta;
 
     @Column(name = "POINTSGIVEN", nullable = false)
     @JmixProperty(mandatory = true)
     @NotNull
     private Long pointsGiven;
 
-    public String getEnemyDelta() {
-        return enemyDelta;
-    }
-
-    public void setEnemyDelta(String enemyDelta) {
+    public void setEnemyDelta(Integer enemyDelta) {
         this.enemyDelta = enemyDelta;
     }
 
-    public String getFriendlyDelta() {
-        return friendlyDelta;
+    public Integer getEnemyDelta() {
+        return enemyDelta;
     }
 
-    public void setFriendlyDelta(String friendlyDelta) {
+    public void setFriendlyDelta(Integer friendlyDelta) {
         this.friendlyDelta = friendlyDelta;
+    }
+
+    public Integer getFriendlyDelta() {
+        return friendlyDelta;
     }
 
     public void setMatchId(UUID matchId) {

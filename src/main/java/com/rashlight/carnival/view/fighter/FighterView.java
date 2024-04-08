@@ -25,6 +25,7 @@ import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.security.InvalidParameterException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +34,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @Route(value = "fighter", layout = MainView.class)
 @ViewController("FighterView")
 @ViewDescriptor("fighter-view.xml")
-public class FighterView extends StandardView {
+public class FighterView extends StandardView implements SessionResultUpdate {
     @Autowired
     private Messages messages;
     @ViewComponent
@@ -203,26 +204,35 @@ public class FighterView extends StandardView {
     }
     private void reward() {
         fighterState.setFriendlyMatchPoint(fighterState.getFriendlyMatchPoint() + 1);
+        updateResult();
     }
     private void finalizeReward() {
+        fighterState.setMultiplier(3d);
+
         User user = CarnivalToolbox.getLoggedInUser(currentAuthentication);
-        user.setPoints(user.getPoints() + fighterState.getPointsGiven() * 3);
+        user.setPoints(
+                user.getPoints() + CarnivalToolbox.floorLongFromDouble(
+                        fighterState.getPointsGiven() * fighterState.getMultiplier()
+                )
+        );
         dataManager.save(user);
+        updateSession();
 
         notifications.show(
                 messageBundle.getMessage("winner"),
                 "You earned " + fighterState.getPointsGiven() * 3 + " (300%)"
         );
     }
-
     private void finalizePunish() {
         notifications.show(
                 messageBundle.getMessage("loser"),
                 "You lost " + fighterState.getPointsGiven() + " (100%)"
         );
+        updateSession();
     }
     private void punish() {
         fighterState.setEnemyMatchPoint(fighterState.getEnemyMatchPoint() + 1);
+        updateResult();
     }
     private void updateTitleAndDescription(int deltaFriendlyPosition, int deltaEnemyPosition) {
         fighterTitleLabel.setText(fighterState.getFriendlyMatchPoint() + " - " + fighterState.getEnemyMatchPoint());
@@ -513,6 +523,7 @@ public class FighterView extends StandardView {
 
             fighterState.setMatchId(UUID.randomUUID());
             fighterState.setPointsGiven(pointsGiven);
+            fighterState.setMultiplier(-1.0d);
             fighterState.setFriendlyMatchPoint(0);
             fighterState.setEnemyMatchPoint(0);
             resetBoard();
@@ -550,13 +561,13 @@ public class FighterView extends StandardView {
         updateFriendlyUI(oldFriendlyPosition, fighterState.getFriendlyPosition());
         updateEnemyUI(oldEnemyPosition, fighterState.getEnemyPosition());
 
-        int deltaFriendlyPosition = fighterState.getFriendlySide() == FighterSide.LEFT
+        fighterState.setFriendlyDelta(fighterState.getFriendlySide() == FighterSide.LEFT
                 ? fighterState.getFriendlyPosition() - oldFriendlyPosition
-                : oldFriendlyPosition - fighterState.getFriendlyPosition();
+                : oldFriendlyPosition - fighterState.getFriendlyPosition());
 
-        int deltaEnemyPosition = fighterState.getEnemySide() == FighterSide.LEFT
+        fighterState.setEnemyDelta(fighterState.getEnemySide() == FighterSide.LEFT
                 ? fighterState.getEnemyPosition() - oldEnemyPosition
-                : oldEnemyPosition - fighterState.getEnemyPosition();
+                : oldEnemyPosition - fighterState.getEnemyPosition());
 
         switch (fighterState.getStatus()) {
             case WON:
@@ -580,8 +591,8 @@ public class FighterView extends StandardView {
         }
         fighterTitleMatchLabel.setText(fighterState.getFriendlyMatchPoint() + " - " + fighterState.getEnemyMatchPoint());
         updateTitleAndDescription(
-                deltaFriendlyPosition,
-                deltaEnemyPosition
+                fighterState.getFriendlyDelta(),
+                fighterState.getEnemyDelta()
         );
         updateActionButtonUI();
     }
@@ -627,5 +638,33 @@ public class FighterView extends StandardView {
         nextMatchButton.setVisible(false);
         endGameButton.setVisible(false);
         changeVisualMode(FighterMode.PRESTART);
+    }
+
+    @Override
+    public void updateSession() {
+        Session session = dataManager.create(Session.class);
+        session.setGameType(GameType.FIGHTER);
+        session.setMatchId(fighterState.getMatchId());
+        session.setPointsChange(CarnivalToolbox.floorLongFromDouble(fighterState.getPointsGiven() * fighterState.getMultiplier()));
+        session.setTime(LocalDateTime.now());
+        dataManager.save(session);
+    }
+
+    @Override
+    public void updateResult() {
+        FighterResult fighterResult = dataManager.create(FighterResult.class);
+        fighterResult.setMatchId(fighterState.getMatchId());
+        fighterResult.setFriendlyMatchPoint(fighterState.getFriendlyMatchPoint());
+        fighterResult.setStatus(fighterState.getStatus());
+        fighterResult.setEnemyMatchPoint(fighterState.getEnemyMatchPoint());
+        fighterResult.setSide(fighterState.getFriendlySide());
+        fighterResult.setFriendlyPosition(fighterState.getFriendlyPosition());
+        fighterResult.setEnemyPosition(fighterState.getEnemyPosition());
+        fighterResult.setFriendlyAction(fighterState.getFriendlyAction());
+        fighterResult.setEnemyAction(fighterState.getEnemyAction());
+        fighterResult.setFriendlyDelta(fighterState.getFriendlyDelta());
+        fighterResult.setEnemyDelta(fighterState.getEnemyDelta());
+        fighterResult.setPointsGiven(fighterState.getPointsGiven());
+        dataManager.save(fighterResult);
     }
 }

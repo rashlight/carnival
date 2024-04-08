@@ -1,7 +1,5 @@
 package com.rashlight.carnival.entity;
 
-import io.jmix.core.entity.annotation.JmixGeneratedValue;
-import io.jmix.core.entity.annotation.JmixId;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import io.jmix.core.metamodel.annotation.JmixProperty;
 import jakarta.validation.constraints.Max;
@@ -11,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @JmixEntity
-public class FighterState {
+public class FighterState extends State {
 
     @JmixProperty(mandatory = true)
     @NotNull
@@ -49,9 +47,39 @@ public class FighterState {
 
     private Integer enemyAction;
 
+    private Integer friendlyDelta;
+
+    private Integer enemyDelta;
+
     @JmixProperty(mandatory = true)
     @NotNull
     private Long pointsGiven;
+
+    private Double multiplier;
+
+    public Integer getEnemyDelta() {
+        return enemyDelta;
+    }
+
+    public void setEnemyDelta(Integer enemyDelta) {
+        this.enemyDelta = enemyDelta;
+    }
+
+    public Integer getFriendlyDelta() {
+        return friendlyDelta;
+    }
+
+    public void setFriendlyDelta(Integer friendlyDelta) {
+        this.friendlyDelta = friendlyDelta;
+    }
+
+    public Double getMultiplier() {
+        return multiplier;
+    }
+
+    public void setMultiplier(Double multiplier) {
+        this.multiplier = multiplier;
+    }
 
     public FighterSide getEnemySide() {
         return enemySide == null ? null : FighterSide.fromId(enemySide);

@@ -21,16 +21,12 @@ public class Session {
     private UUID id;
 
     @NotNull
-    @Column(name = "GAME_ID", nullable = false)
-    private UUID gameId;
+    @Column(name = "GAME_TYPE", nullable = false)
+    private Integer gameType;
 
     @Column(name = "MATCH_ID", nullable = false)
     @NotNull
     private UUID matchId;
-
-    @NotNull
-    @Column(name = "GAME_RESULT_ID", nullable = false)
-    private UUID gameResultId;
 
     @NotNull
     @Column(name = "POINTS_CHANGE", nullable = false)
@@ -40,12 +36,12 @@ public class Session {
     @NotNull
     private LocalDateTime time;
 
-    public void setGameId(UUID gameId) {
-        this.gameId = gameId;
+    public void setGameType(GameType gameType) {
+        this.gameType = gameType == null ? null : gameType.getId();
     }
 
-    public UUID getGameId() {
-        return gameId;
+    public GameType getGameType() {
+        return gameType == null ? null : GameType.fromId(gameType);
     }
 
     public UUID getMatchId() {
@@ -70,14 +66,6 @@ public class Session {
 
     public void setPointsChange(Long pointsChange) {
         this.pointsChange = pointsChange;
-    }
-
-    public void setGameResultId(UUID gameResultId) {
-        this.gameResultId = gameResultId;
-    }
-
-    public UUID getGameResultId() {
-        return gameResultId;
     }
 
     public UUID getId() {

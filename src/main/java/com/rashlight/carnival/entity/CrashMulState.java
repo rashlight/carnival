@@ -8,11 +8,21 @@ import java.util.UUID;
 public class CrashMulState {
     private UUID matchId;
 
-    private Double playerMultiplier;
+    private Boolean isPlayerStop;
 
     private Double finalMultiplier;
 
     private Long pointsGiven;
+
+    private Double multiplier;
+
+    public Boolean getIsPlayerStop() {
+        return isPlayerStop;
+    }
+
+    public void setIsPlayerStop(Boolean isPlayerStop) {
+        this.isPlayerStop = isPlayerStop;
+    }
 
     public Long getPointsGiven() {
         return pointsGiven;
@@ -30,19 +40,19 @@ public class CrashMulState {
         this.matchId = matchId;
     }
 
+    public void setMultiplier(Double multiplier) {
+        this.multiplier = multiplier;
+    }
+
+    public Double getMultiplier() {
+        return multiplier;
+    }
+
     public void setFinalMultiplier(Double finalMultiplier) {
         this.finalMultiplier = finalMultiplier;
     }
 
     public Double getFinalMultiplier() {
         return finalMultiplier;
-    }
-
-    public void setPlayerMultiplier(Double playerMultiplier) {
-        this.playerMultiplier = playerMultiplier;
-    }
-
-    public Double getPlayerMultiplier() {
-        return playerMultiplier;
     }
 }

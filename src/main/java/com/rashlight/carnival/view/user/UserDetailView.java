@@ -2,11 +2,13 @@ package com.rashlight.carnival.view.user;
 
 import com.rashlight.carnival.entity.User;
 import com.rashlight.carnival.view.main.MainView;
+import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.EntityStates;
 import io.jmix.flowui.component.textfield.TypedTextField;
+import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,6 +49,11 @@ public class UserDetailView extends StandardDetailView<User> {
         usernameField.setReadOnly(false);
         passwordField.setVisible(true);
         confirmPasswordField.setVisible(true);
+    }
+
+    @Subscribe(id = "saveAndCloseBtn", subject = "clickListener")
+    public void onSaveAndCloseBtnClick(final ClickEvent<JmixButton> event) {
+        // Update points hidden state
     }
 
     @Subscribe

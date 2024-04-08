@@ -5,6 +5,8 @@ import io.jmix.core.Messages;
 import io.jmix.core.security.CurrentAuthentication;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Locale;
 
 /**
@@ -13,6 +15,14 @@ import java.util.Locale;
 public class CarnivalToolbox {
     public static final String AppName = "com.rashlight.carnival";
     public static final String ErrorBundle = AppName + ".error";
+    public static final Double DefaultMultiplier = -1.0d;
+    public static Long floorLongFromDouble(Double value) {
+        return (long) Math.floor(value);
+    }
+    public static Double roundDoubleFromDouble(Double value, int decimalAmount) {
+        return BigDecimal.valueOf(value).setScale(decimalAmount, RoundingMode.HALF_EVEN).doubleValue();
+    }
+
     public static String getError(Messages messages, String key) {
         return messages.getMessage(
                      ErrorBundle,

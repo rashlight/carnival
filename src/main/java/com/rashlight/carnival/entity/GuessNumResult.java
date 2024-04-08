@@ -49,7 +49,7 @@ public class GuessNumResult {
     private Integer actualValue;
 
     @Column(name = "MULTIPLIER")
-    private Float multiplier;
+    private Double multiplier;
 
     @Min(0)
     @NotNull
@@ -60,11 +60,11 @@ public class GuessNumResult {
     @NotNull
     private LocalDateTime time;
 
-    public void setMultiplier(Float multiplier) {
+    public void setMultiplier(Double multiplier) {
         this.multiplier = multiplier;
     }
 
-    public Float getMultiplier() {
+    public Double getMultiplier() {
         return multiplier;
     }
 

@@ -9,9 +9,7 @@ public enum GameType implements EnumClass<Integer> {
 
     GUESSNUM(0),
     CRASHMUL(1),
-    FIGHTER(2),
-    BATTLESHIP(3),
-    CHESS(4);
+    FIGHTER(2);
 
     private final Integer id;
 

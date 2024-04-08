@@ -69,7 +69,7 @@ public class CrashMulServiceServer extends CrashMulServiceGrpc.CrashMulServiceIm
 
     public void initiate() {
         failed = false;
-        multiplier = 0d;
+        multiplier = 0.5d;
         failChance = 0d;
         bumpTime = 0;
     }
@@ -77,11 +77,12 @@ public class CrashMulServiceServer extends CrashMulServiceGrpc.CrashMulServiceIm
     public boolean bump() {
         if (!failed) {
             bumpTime = bumpTime + 1;
-            BigDecimal multiplierRaw = BigDecimal.valueOf(0.5d + 0.01d * bumpTime).setScale(2, RoundingMode.HALF_EVEN);
-            multiplier = multiplierRaw.doubleValue();
-            BigDecimal failChanceRaw = BigDecimal.valueOf(Math.clamp(0.01d + 0.001d * bumpTime, 0d, 1d)).setScale(3, RoundingMode.HALF_EVEN);
-            failChance = failChanceRaw.doubleValue();
-
+            multiplier = BigDecimal.valueOf(0.5d + 0.01d * bumpTime)
+                    .setScale(2, RoundingMode.HALF_EVEN)
+                    .doubleValue();
+            failChance = BigDecimal.valueOf(Math.clamp(0.025d - 0.001d * bumpTime, 0.005d, 1d))
+                    .setScale(3, RoundingMode.HALF_EVEN)
+                    .doubleValue();
             failed = ThreadLocalRandom.current().nextDouble(0, 1) <= failChance;
         }
 
