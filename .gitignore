@@ -27,5 +27,6 @@ frontend/generated/
 pnpmfile.js
 vite.generated.ts
 webpack.generated.js
+.npmrc
 
 .DS_Store
