@@ -19,8 +19,8 @@
             <column name="USERNAME" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FIRST_NAME" type="varchar(255)"/>
-            <column name="LAST_NAME" type="varchar(255)"/>
+            <column name="FIRST_NAME" type="varchar(255)" value="Your"/>
+            <column name="LAST_NAME" type="varchar(255)" value="Name"/>
             <column name="PASSWORD" type="varchar(255)"/>
             <column name="EMAIL" type="varchar(255)"/>
             <column name="ACTIVE" type="boolean"/>

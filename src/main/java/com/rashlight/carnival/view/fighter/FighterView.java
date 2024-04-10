@@ -206,7 +206,7 @@ public class FighterView extends StandardView implements SessionResultUpdate {
         fighterState.setFriendlyMatchPoint(fighterState.getFriendlyMatchPoint() + 1);
     }
     private void finalizeReward() {
-        fighterState.setMultiplier(3d);
+        fighterState.setMultiplier(3.0d);
 
         User user = CarnivalToolbox.getLoggedInUser(currentAuthentication);
         user.setPoints(
@@ -671,6 +671,7 @@ public class FighterView extends StandardView implements SessionResultUpdate {
         fighterResult.setEnemyDelta(fighterState.getEnemyDelta());
         fighterResult.setFriendlyMatchPoint(fighterState.getFriendlyMatchPoint());
         fighterResult.setEnemyMatchPoint(fighterState.getEnemyMatchPoint());
+        fighterResult.setMultiplier(fighterState.getMultiplier());
         dataManager.save(fighterResult);
     }
 }

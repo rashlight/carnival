@@ -89,6 +89,18 @@ public class FighterResult {
     @Column(name = "ENEMY_MATCH_POINT", nullable = false)
     private Integer enemyMatchPoint;
 
+    @NotNull
+    @Column(name = "MULTIPLIER", nullable = false)
+    private Double multiplier;
+
+    public Double getMultiplier() {
+        return multiplier;
+    }
+
+    public void setMultiplier(Double multiplier) {
+        this.multiplier = multiplier;
+    }
+
     public LocalDateTime getTime() {
         return time;
     }

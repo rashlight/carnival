@@ -3,6 +3,7 @@ package com.rashlight.carnival.view.session;
 import com.rashlight.carnival.entity.*;
 import com.rashlight.carnival.value.CarnivalToolbox;
 import com.rashlight.carnival.view.main.MainView;
+import com.rashlight.carnival.view.shutdown.ShutdownView;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.HasValueAndElement;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -12,6 +13,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.core.validation.EntityValidationException;
+import io.jmix.flowui.ViewNavigators;
 import io.jmix.flowui.action.view.LookupDiscardAction;
 import io.jmix.flowui.component.datetimepicker.TypedDateTimePicker;
 import io.jmix.flowui.component.grid.DataGrid;
@@ -59,9 +61,28 @@ public class SessionListView extends StandardListView<Session> {
     private CollectionLoader<Session> sessionsDl;
     @ViewComponent
     private LookupDiscardAction<Object> discardAction;
+    @ViewComponent
+    private JmixButton exportGuessNumResultBtn;
+    @ViewComponent
+    private JmixButton exportSessionBtn;
+    @ViewComponent
+    private JmixButton exportCrashMulResultBtn;
+    @ViewComponent
+    private JmixButton exportFighterResultBtn;
+    @ViewComponent
+    private JmixButton exportDummyResultBtn;
+    @Autowired
+    private ViewNavigators viewNavigators;
+    @ViewComponent
+    private JmixButton exportShutdownResultBtn;
+    @ViewComponent
+    private DataGrid<ShutdownResult> shutdownResultDataGrid;
+    @ViewComponent
+    private CollectionLoader<ShutdownResult> shutdownResultDl;
 
     @Subscribe
     public void onInit(final InitEvent event) {
+        sessionsDl.setParameter("user", CarnivalToolbox.getLoggedInUser(currentAuthentication));
         sessionsDl.load();
     }
 
@@ -78,13 +99,43 @@ public class SessionListView extends StandardListView<Session> {
             guessNumResultDataGrid.setVisible(false);
             crashMulResultDataGrid.setVisible(false);
             fighterResultDataGrid.setVisible(false);
+            shutdownResultDataGrid.setVisible(false);
+
+            exportDummyResultBtn.setVisible(true);
+            exportGuessNumResultBtn.setVisible(false);
+            exportCrashMulResultBtn.setVisible(false);
+            exportFighterResultBtn.setVisible(false);
+            exportShutdownResultBtn.setVisible(false);
         } else {
             switch (entity.getGameType()) {
+                case SHENANIGANS:
+                    noResultLabel.setVisible(false);
+                    guessNumResultDataGrid.setVisible(false);
+                    crashMulResultDataGrid.setVisible(false);
+                    fighterResultDataGrid.setVisible(false);
+                    shutdownResultDataGrid.setVisible(true);
+
+                    exportDummyResultBtn.setVisible(false);
+                    exportGuessNumResultBtn.setVisible(false);
+                    exportCrashMulResultBtn.setVisible(false);
+                    exportFighterResultBtn.setVisible(false);
+                    exportShutdownResultBtn.setVisible(true);
+
+                    shutdownResultDl.setParameter("matchId", entity.getMatchId());
+                    shutdownResultDl.load();
+                    break;
                 case GUESSNUM:
                     noResultLabel.setVisible(false);
                     guessNumResultDataGrid.setVisible(true);
                     crashMulResultDataGrid.setVisible(false);
                     fighterResultDataGrid.setVisible(false);
+                    shutdownResultDataGrid.setVisible(false);
+
+                    exportDummyResultBtn.setVisible(false);
+                    exportGuessNumResultBtn.setVisible(true);
+                    exportCrashMulResultBtn.setVisible(false);
+                    exportFighterResultBtn.setVisible(false);
+                    exportShutdownResultBtn.setVisible(false);
 
                     guessNumResultDl.setParameter("matchId", entity.getMatchId());
                     guessNumResultDl.load();
@@ -94,6 +145,13 @@ public class SessionListView extends StandardListView<Session> {
                     guessNumResultDataGrid.setVisible(false);
                     crashMulResultDataGrid.setVisible(true);
                     fighterResultDataGrid.setVisible(false);
+                    shutdownResultDataGrid.setVisible(false);
+
+                    exportDummyResultBtn.setVisible(false);
+                    exportGuessNumResultBtn.setVisible(false);
+                    exportCrashMulResultBtn.setVisible(true);
+                    exportFighterResultBtn.setVisible(false);
+                    exportShutdownResultBtn.setVisible(false);
 
                     crashMulResultDl.setParameter("matchId", entity.getMatchId());
                     crashMulResultDl.load();
@@ -103,6 +161,13 @@ public class SessionListView extends StandardListView<Session> {
                     guessNumResultDataGrid.setVisible(false);
                     crashMulResultDataGrid.setVisible(false);
                     fighterResultDataGrid.setVisible(true);
+                    shutdownResultDataGrid.setVisible(false);
+
+                    exportDummyResultBtn.setVisible(false);
+                    exportGuessNumResultBtn.setVisible(false);
+                    exportCrashMulResultBtn.setVisible(false);
+                    exportFighterResultBtn.setVisible(true);
+                    exportShutdownResultBtn.setVisible(false);
 
                     fighterResultDl.setParameter("matchId", entity.getMatchId());
                     fighterResultDl.load();
@@ -111,5 +176,10 @@ public class SessionListView extends StandardListView<Session> {
                     throw new InvalidParameterException("Unknown GameType for User!");
             }
         }
+    }
+
+    @Subscribe(id = "shutdownBtn", subject = "clickListener")
+    public void onShutdownBtnClick(final ClickEvent<JmixButton> event) {
+        viewNavigators.view(ShutdownView.class).withBackwardNavigation(true).navigate();
     }
 }

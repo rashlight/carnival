@@ -7,6 +7,7 @@ import org.springframework.lang.Nullable;
 
 public enum GameType implements EnumClass<Integer> {
 
+    SHENANIGANS(-1),
     GUESSNUM(0),
     CRASHMUL(1),
     FIGHTER(2);

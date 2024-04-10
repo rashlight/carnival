@@ -16,6 +16,8 @@ public class CarnivalToolbox {
     public static final String AppName = "com.rashlight.carnival";
     public static final String ErrorBundle = AppName + ".error";
     public static final Double DefaultMultiplier = -1.0d;
+    public static final long SHUTDOWN_POINTS = 1000000L;
+
     public static Long floorLongFromDouble(Double value) {
         return (long) Math.floor(value);
     }

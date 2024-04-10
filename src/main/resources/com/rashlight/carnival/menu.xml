@@ -3,6 +3,7 @@
     <menu opened="true" id="account" title="msg://com.rashlight.carnival/menu.account.title">
         <item view="DashboardView" title="msg://com.rashlight.carnival.view.dashboard/dashboard.title"/>
         <item view="Session.list" title="msg://com.rashlight.carnival.view.session/sessionListView.title"/>
+        <item view="ShutdownView" title="msg://com.rashlight.carnival.view.shutdown/shutdownView.title"/>
     </menu>
     <menu opened="true" id="games" title="msg://com.rashlight.carnival/menu.games.title">
         <item view="GuessNumView" title="msg://com.rashlight.carnival.view.guessnum/guessNum.title"/>
@@ -12,13 +13,19 @@
     <menu opened="true" id="credentials" title="msg://com.rashlight.carnival/menu.account.credentials">
         <item view="User.list" title="msg://com.rashlight.carnival/users"/>
     </menu>
-    <menu opened="true" id="security" title="msg://com.rashlight.carnival/menu.security.title">
+    <menu opened="true" id="reports" title="msg://io.jmix.reportsflowui/menu.reports.title">
+        <item view="report_Report.list" title="msg://io.jmix.reportsflowui/reportListView.menu"/>
+        <item view="report_ReportGroup.list" title="msg://io.jmix.reportsflowui/reportGroupListView.menu"/>
+        <item view="report_ReportRunView" title="msg://io.jmix.reportsflowui/reportRunView.menu"/>
+        <item view="report_ReportTableView" title="msg://io.jmix.reportsflowui/reportTableView.menu"/>
+    </menu>
+    <menu opened="false" id="security" title="msg://com.rashlight.carnival/menu.security.title">
         <item view="sec_ResourceRoleModel.list"
               title="msg://io.jmix.securityflowui.view.resourcerole/resourceRoleModelListView.menu"/>
         <item view="sec_RowLevelRoleModel.list"
               title="msg://io.jmix.securityflowui.view.rowlevelrole/rowLevelRoleModelListView.menu"/>
     </menu>
-    <menu opened="true" id="datatools" title="msg://com.rashlight.carnival/menu.datatools.title">
+    <menu opened="false" id="datatools" title="msg://com.rashlight.carnival/menu.datatools.title">
         <item view="datatl_entityInspectorListView"
               title="msg://io.jmix.datatoolsflowui.view.entityinspector/listTitle"/>
     </menu>

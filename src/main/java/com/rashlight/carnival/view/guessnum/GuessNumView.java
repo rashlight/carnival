@@ -82,7 +82,6 @@ public class GuessNumView extends StandardView implements SessionResultUpdate {
     }
 
     private void punish() {
-        updateResult();
         if (guessNumState.getAttemptsLeft() <= 0) {
             guessNumState.setMultiplier(-1.0d);
             updateSession();
@@ -147,6 +146,7 @@ public class GuessNumView extends StandardView implements SessionResultUpdate {
         }
 
         int guessNum = Integer.parseInt(guessNumEnter.getValue());
+        guessNumState.setAttemptValue(guessNum);
         guessNumState.setAttemptsLeft(guessNumState.getAttemptsLeft() - 1);
         Double multiplier = BigDecimal.valueOf(5.0d - 0.5d * (5 - guessNumState.getAttemptsLeft()))
                 .setScale(1, RoundingMode.HALF_EVEN)
@@ -155,6 +155,7 @@ public class GuessNumView extends StandardView implements SessionResultUpdate {
 
         guessNumAttemptsLeft.setText(guessNumState.getAttemptsLeft() + " " + messageBundle.getMessage("guessNumLeftLabel.text.postfix"));
 
+        updateResult();
         if (guessNum == guessNumState.getActualNum()) {
             judge(GuessNumJudgement.EXACT);
         } else if (guessNum > guessNumState.getActualNum()) {
@@ -289,7 +290,7 @@ public class GuessNumView extends StandardView implements SessionResultUpdate {
         guessNumResult.setPointsGiven(guessNumState.getPointsGiven());
         guessNumResult.setAttempt(5 - guessNumState.getAttemptsLeft());
         guessNumResult.setUser(CarnivalToolbox.getLoggedInUser(currentAuthentication));
-        guessNumResult.setAttemptValue(guessNumState.getAttemptsLeft());
+        guessNumResult.setAttemptValue(guessNumState.getAttemptValue());
         guessNumResult.setActualValue(guessNumState.getActualNum());
         guessNumResult.setMultiplier(guessNumState.getMultiplier());
         dataManager.save(guessNumResult);

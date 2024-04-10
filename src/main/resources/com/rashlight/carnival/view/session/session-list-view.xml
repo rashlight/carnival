@@ -10,6 +10,11 @@
             <loader id="sessionsDl" readOnly="true">
                 <query>
                     <![CDATA[select e from Session_ e]]>
+                    <condition>
+                        <c:jpql>
+                            <c:where>e.user = :user</c:where>
+                        </c:jpql>
+                    </condition>
                 </query>
             </loader>
         </collection>
@@ -61,6 +66,22 @@
                 </query>
             </loader>
         </collection>
+        <collection id="shutdownResultDc"
+                    class="com.rashlight.carnival.entity.ShutdownResult">
+            <fetchPlan extends="_base">
+                <property name="user" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="shutdownResultDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from ShutdownResult e]]>
+                    <condition>
+                        <c:jpql>
+                            <c:where>e.matchId = :matchId</c:where>
+                        </c:jpql>
+                    </condition>
+                </query>
+            </loader>
+        </collection>
     </data>
     <facets>
         <dataLoadCoordinator auto="true"/>
@@ -80,6 +101,21 @@
                                dataLoader="sessionsDl">
                     <properties include=".*"/>
                 </genericFilter>
+                <hbox>
+                    <button id="exportSessionBtn" action="sessionsDataGrid.exportExcel" text="msg://exportSession"/>
+                    <button id="exportDummyResultBtn" action="sessionsDataGrid.exportExcel" text="msg://exportResult"
+                            enabled="false"/>
+                    <button id="exportGuessNumResultBtn" action="guessNumResultDataGrid.exportExcel" text="msg://exportResult"
+                            visible="false"/>
+                    <button id="exportCrashMulResultBtn" action="crashMulResultDataGrid.exportExcel" text="msg://exportResult"
+                            visible="false"/>
+                    <button id="exportFighterResultBtn" action="fighterResultDataGrid.exportExcel" text="msg://exportResult"
+                            visible="false"/>
+                    <button id="exportShutdownResultBtn" action="shutdownResultDataGrid.exportExcel" text="msg://exportResult"
+                            visible="false"/>
+                    <button id="shutdownBtn" text="msg://shutdownBtn" icon="vaadin:power-off"/>
+                </hbox>
+
                 <hbox id="buttonsPanel" classNames="buttons-panel">
                     <simplePagination id="pagination" dataLoader="sessionsDl"/>
                 </hbox>
@@ -88,9 +124,12 @@
                           minHeight="20em"
                           dataContainer="sessionsDc"
                           columnReorderingAllowed="true">
+                    <actions>
+                        <action id="exportExcel" type="grdexp_excelExport"/>
+                    </actions>
                     <columns resizable="true">
                         <column property="gameType"/>
-                        <column property="matchId"/>
+<!--                        <column property="matchId"/>-->
                         <column property="pointsChange"/>
                         <column property="time"/>
                     </columns>
@@ -108,6 +147,9 @@
                           minHeight="20em"
                           dataContainer="guessNumResultDc"
                           columnReorderingAllowed="true" visible="false">
+                    <actions>
+                        <action id="exportExcel" type="grdexp_excelExport"/>
+                    </actions>
                     <columns resizable="true">
                         <column property="id"/>
 <!--                        <column property="matchId"/>-->
@@ -125,6 +167,9 @@
                           minHeight="20em"
                           dataContainer="crashMulResultDc"
                           columnReorderingAllowed="true" visible="false">
+                    <actions>
+                        <action id="exportExcel" type="grdexp_excelExport"/>
+                    </actions>
                     <columns resizable="true">
                         <column property="id"/>
 <!--                        <column property="matchId"/>-->
@@ -141,6 +186,9 @@
                           minHeight="20em"
                           dataContainer="fighterResultDc"
                           columnReorderingAllowed="true" visible="false">
+                    <actions>
+                        <action id="exportExcel" type="grdexp_excelExport"/>
+                    </actions>
                     <columns resizable="true">
                         <column property="id"/>
 <!--                        <column property="matchId"/>-->
@@ -157,6 +205,23 @@
                         <column property="enemyDelta"/>
                         <column property="friendlyMatchPoint"/>
                         <column property="enemyMatchPoint"/>
+                    </columns>
+                </dataGrid>
+                <dataGrid id="shutdownResultDataGrid"
+                          width="100%"
+                          minHeight="20em"
+                          dataContainer="shutdownResultDc"
+                          columnReorderingAllowed="true" visible="false">
+                    <actions>
+                        <action id="exportExcel" type="grdexp_excelExport"/>
+                    </actions>
+                    <columns resizable="true">
+                        <column property="id"/>
+                        <!--                        <column property="matchId"/>-->
+                        <column property="user"/>
+                        <column property="time"/>
+                        <column property="pointsGiven"/>
+                        <column property="multiplier"/>
                     </columns>
                 </dataGrid>
             </vbox>

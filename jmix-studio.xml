@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="IgnoredChangelogIncludeConfig">
+    <datastore-include-infos>
+      <datastore-include-info datastore-name="main" />
+    </datastore-include-infos>
+  </component>
   <component name="JmixDataStoreSettingsManager">
     <moduleSettings>
       <entry key="com.rashlight.Carnival.main">
@@ -22,8 +27,9 @@
               <entry key="main">
                 <value>
                   <DataStoreSettingsV2>
+                    <option name="generateDdlType" value="CREATE_AND_UPDATE" />
                     <option name="supportedTypes">
-                      <option value="hsql" />
+                      <option value="postgres" />
                     </option>
                   </DataStoreSettingsV2>
                 </value>
@@ -46,5 +52,19 @@
         </ModuleSettings>
       </entry>
     </moduleSettings>
+  </component>
+  <component name="JmixPluginProjectSettings">
+    <option name="savedDbProperties">
+      <list>
+        <SavedDbProperties>
+          <option name="databaseName" value="carnival" />
+          <option name="dbType" value="hsqlfile" />
+          <option name="dbmsVersion" />
+          <option name="host" value=".jmix/hsqldb" />
+          <option name="url" value="jdbc:hsqldb:file:.jmix/hsqldb/carnival" />
+          <option name="user" value="sa" />
+        </SavedDbProperties>
+      </list>
+    </option>
   </component>
 </project>

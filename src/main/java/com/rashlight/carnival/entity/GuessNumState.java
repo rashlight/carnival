@@ -20,11 +20,21 @@ public class GuessNumState extends State {
     @JmixProperty(mandatory = true)
     private Double multiplier;
 
+    private Integer attemptValue;
+
     @Max(100)
     @Min(0)
     private Integer actualNum;
 
     private Integer attemptsLeft;
+
+    public Integer getAttemptValue() {
+        return attemptValue;
+    }
+
+    public void setAttemptValue(Integer attemptValue) {
+        this.attemptValue = attemptValue;
+    }
 
     public void setMultiplier(Double multiplier) {
         this.multiplier = multiplier;

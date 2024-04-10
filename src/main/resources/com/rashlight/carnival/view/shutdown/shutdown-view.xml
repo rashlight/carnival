@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://shutdownView.title">
+    <layout alignItems="CENTER" justifyContent="CENTER">
+        <button id="shutdownButton" text="msg://shutdownButton.text" themeNames="large" icon="vaadin:lock"
+                enabled="false"/>
+    </layout>
+</view>
