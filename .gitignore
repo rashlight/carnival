@@ -10,6 +10,7 @@ build/
 src/main/bundles/
 
 ### IntelliJ IDEA ###
+.idea
 .idea/*
 !.idea/encodings.xml
 *.iws
