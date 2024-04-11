@@ -4,7 +4,8 @@
 
 Carnival is a Java web application to play mini-games.
 
-Similar to [Petclinic](https://github.com/jmix-framework/jmix-samples-2) and [UI Samples](https://github.com/jmix-framework/jmix-samples-2), the main purpose is to show the power and limitations of Jmix framework.
+
+Similar to [Petclinic](https://github.com/jmix-framework/jmix-petclinic-2) and [UI Samples](https://github.com/jmix-framework/jmix-samples-2), the main purpose is to show the power and limitations of Jmix framework.
 
 # Features
  - Contains 3 games to play
