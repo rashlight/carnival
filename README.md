@@ -5,14 +5,15 @@
 Carnival is a Java web application to play mini-games.
 
 
-Similar to [Petclinic](https://github.com/jmix-framework/jmix-petclinic-2) and [UI Samples](https://github.com/jmix-framework/jmix-samples-2), the main purpose is to show the power and limitations of Jmix framework.
+Similar to [Petclinic](https://github.com/jmix-framework/jmix-petclinic-2) and [UI Samples](https://github.com/jmix-framework/jmix-samples-2), the main purpose is to show the power and limitations of [Jmix framework](https://www.jmix.io/).
 
 # Features
  - Contains 3 games to play
  - Game session management
  - Simple to learn UI with Blank View
- - GRPC integration with grpc-spring
+ - GRPC integration with [grpc-spring](https://github.com/grpc-ecosystem/grpc-spring)
  - Integrations with Report Add-on
+ - Localisation
 
 # Requirements
 
@@ -69,17 +70,17 @@ java -jar Carnival-1.0.0-rc3.jar
    - Main difference between Sessions and Results is that Session represents whole gameplay, while Result are steps that are made to achieve the Session values.
  - **Modes** are UI states, such as points input and play area.
  - GRPC is made with these components:
-   - **Server**, where the values are processed. It should use values on its own, not from Entities or DTOs.
-   - **Client**, where basic GRPC function calls are made. It should also format the result to be suitable for usage in Views.
-   - **Task** (optional), where required function to run GRPC are implemented.
-     - The View update should be handled by the View controller to prevents conflicts. Thus, it is recommended to pass a reference to the View controller itself, and call the functions from there.
-     - If a Task is made, a **Interface** should also be made.
-   - **Interface**, where functions defined in the .proto files are defined.
    - **Auto Generated Files** (autogen), where pre-generated files from grpc-spring are stored.
      - You can generates the files in the generateProto or generateTestProto task in Gradle, copy all the files generated and place it on the autogen folder.
        - If there is no file generated, delete the older autogen files and try again.
        - The correct package name must be declared in the .proto files
        - **DO NOT** change the generatedFilesBaseDir in build.gradle if you do not know what you are doing, or files located in declared directory will be lost. **YOU HAVE BEEN WARNED.**
+   - **Server**, where the values are processed. It should use values on its own, not from Entities or DTOs.
+   - **Client**, where basic GRPC function calls are made. It should also format the result to be suitable for usage in Views.
+   - **Task** (optional), where required function to run GRPC are implemented.
+     - The View update should be handled by the View to prevents conflicts. Thus, it is recommended to pass a reference to the View itself, and call the functions from there.
+     - If a Task is made, an **Interface** should also be made.
+   - **Interface** (optional), where functions defined in the .proto files are defined.
    - **Configurations**, where the GRPC Spring Beans are made. It is located in **GrpcConfiguration** class.
 
 # Additional Materials
